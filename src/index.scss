@@ -1,0 +1,9 @@
+@import '~bootstrap/scss/bootstrap', 'scss/_variables';
+
+
+html body {
+  background: $bg-color;
+}
+
+
+@import 'scss/calendar';
