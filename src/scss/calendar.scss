@@ -3,13 +3,17 @@
 }
 
 .calendar {
-  background-color: #fff;
+  background-color: #ffffff;
 
+
+  td {
+    padding: .5rem;
+  }
+  
   &__head {
     background: $light;
 
     th {
-      padding: .5rem;
       border-bottom: none!important;
     }
   }

@@ -1,6 +1,6 @@
-import Calendar from './components/Calendar';
-import Dropdown from './components/Dropdown';
 import { Container, Row, Col } from 'react-bootstrap';
+import Calendar from './components/Calendar';
+import Controls from './components/Controls';
 
 const USERS = [
   {
@@ -26,7 +26,7 @@ const USERS = [
   {
     name: 'Bob',
     avatar: '',
-  }
+  },
 ];
 
 function App() {
@@ -39,11 +39,8 @@ function App() {
           <h1>Calendar</h1>
         </Col>
         <Col className="pt-1">
-          <Dropdown users={USERS} />
+          <Controls isAdmin={isAdmin} users={USERS} />
         </Col>
-        {isAdmin && <Col className="pt-1">
-          <Dropdown users={USERS} />
-        </Col> }
       </Row>
       <Row className="pt-2">
         <Col>
