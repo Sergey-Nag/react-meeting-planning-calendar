@@ -2,15 +2,16 @@
   @extend %appearance;
 }
 
-#create-event-btn-wrapp {
-  display: none;
-}
-
 .calendar {
   background-color: #fff;
 
   &__head {
     background: $light;
+
+    th {
+      padding: .5rem;
+      border-bottom: none!important;
+    }
   }
 
   &__body tr {
@@ -26,89 +27,5 @@
 
   &__col {
     width: 18%;
-  }
-
-  &__card {
-    background: $card-color;
-    height: 100%;
-    padding: 5px;
-
-    &:hover {
-      .calendar__btn_close {
-        opacity: 0.5;
-      }
-
-      .card__avatar {
-        margin-right: -5px;
-      }
-    }
-
-    &.dragged {
-      opacity: 0.5;
-    }
-
-    &.floating {
-      cursor: grabbing !important;
-      position: absolute;
-      z-index: 990;
-    }
-  }
-
-  &__btn {
-    &_close {
-      @extend %transition;
-      box-sizing: border-box;
-      display: none;
-      height: 15px;
-      opacity: 0;
-      position: absolute;
-      right: 5px;
-      top: calc(50% - 8.5px);
-      width: 15px;
-    }
-  }
-}
-
-.put {
-  &.allow {
-    outline: 4px dashed $card-color;
-  }
-
-  &.disallow {
-    background-color: lighten($danger, 35%);
-    outline-color: none;
-
-    .card {
-      opacity: 0.3;
-    }
-  }
-}
-
-.card {
-  &__title {
-    color: $card-color--darken;
-    font-weight: bold;
-    line-height: 1em;
-  }
-
-  &__avatar {
-    @extend %transition;
-    background-color: #fff;
-    border: 2px solid $card-color;
-    border-radius: 50%;
-    cursor: default;
-    margin-right: -10px;
-    position: relative;
-    width: 25px;
-    z-index: 1;
-
-    &:hover {
-      transform: scale(1.2);
-      z-index: 2;
-    }
-
-    &:active {
-      opacity: 1;
-    }
   }
 }

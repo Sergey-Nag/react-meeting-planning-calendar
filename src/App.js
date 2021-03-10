@@ -1,16 +1,49 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Calendar from './components/Calendar';
+import Dropdown from './components/Dropdown';
 import { Container, Row, Col } from 'react-bootstrap';
 
+const USERS = [
+  {
+    name: 'Alex',
+    avatar: '',
+  },
+  {
+    name: 'Elizabeth',
+    avatar: '',
+  },
+  {
+    name: 'Steve',
+    avatar: '',
+  },
+  {
+    name: 'Ann',
+    avatar: '',
+  },
+  {
+    name: 'Maria',
+    avatar: '',
+  },
+  {
+    name: 'Bob',
+    avatar: '',
+  }
+];
 
 function App() {
+  const isAdmin = true;
+
   return (
     <Container className="p-5">
       <Row>
         <Col>
           <h1>Calendar</h1>
         </Col>
-        <Col></Col>
+        <Col className="pt-1">
+          <Dropdown users={USERS} />
+        </Col>
+        {isAdmin && <Col className="pt-1">
+          <Dropdown users={USERS} />
+        </Col> }
       </Row>
       <Row className="pt-2">
         <Col>

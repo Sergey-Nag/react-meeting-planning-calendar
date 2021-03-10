@@ -7,7 +7,6 @@ export default function Calendar() {
     times: [...Array(9)].map((el,i)=> `1${i}:00`)
   }
 
-
   return (
     <Table bordered className="calendar">
       <thead className="calendar__head">
@@ -17,7 +16,7 @@ export default function Calendar() {
           { data.days.map((head, i) => (
             <th key={i} className="calendar__col">{head}</th>
           )) }
-          
+
         </tr>
       </thead>
       <tbody className="calendar__body">
