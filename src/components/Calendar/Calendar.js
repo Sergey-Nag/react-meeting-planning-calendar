@@ -1,11 +1,18 @@
 import { Table } from 'react-bootstrap';
+import { useEffect } from 'react';
 import Card from '../Card/Card';
+
 
 export default function Calendar() {
   const data = {
     days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
     times: [...Array(9)].map((el, i)=> `1${i}:00`)
   }
+
+  useEffect(()=>{
+    document.title = 'Calendar';
+  }, []);
+  
 
   return (
     <Table bordered className="calendar">

@@ -1,8 +1,9 @@
 import { Switch, Link, Route } from "react-router-dom";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import Dropdown from "../Dropdown/Dropdown";
 
 export default function Controls(args) {
+  
   return (
     <Row>
       <Switch>
@@ -22,8 +23,9 @@ export default function Controls(args) {
           )}
         </Route>
         <Route exact path="/create-event">
+          <Col></Col>
           <Col>
-            <Link to="/" className="w-100 btn btn-outline-primary">
+            <Link to="/" className="btn btn-outline-secondary w-100">
               Back
             </Link>
           </Col>

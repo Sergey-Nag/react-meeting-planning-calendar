@@ -1,0 +1,50 @@
+@import '../../scss/variables';
+
+.alert__wrapp {
+  @extend .d-flex, .justify-content-center, .flex-column;
+  backdrop-filter: blur(4px);
+  background-color: $alert-wrapp-color;
+  height: 100%;
+
+  position: absolute;
+  width: 100%;
+  z-index: 999;
+
+  &.top {
+    background: linear-gradient(to top, transparent, $alert-wrapp-color);
+    height: 20%;
+
+    .alert {
+      border-radius: 0;
+      top: 0;
+      width: 90%;
+    }
+  }
+}
+
+.alert {
+  font-size: 1.2em;
+  margin: 0 auto;
+  max-width: 430px;
+
+  .col-1 {
+    text-align: right;
+  }
+
+  &.top {
+    border-radius: 0;
+    max-width: 100%;
+  }
+}
+
+.popup__wrapp {
+  left: 25px;
+  position: fixed;
+  top: 25px;
+  z-index: 1000;
+}
+
+.popup {
+  font-size: 1em;
+  min-width: 250px;
+}
