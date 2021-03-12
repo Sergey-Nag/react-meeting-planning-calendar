@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
-import Calendar from './components/Calendar';
-import Controls from './components/Controls';
+import Calendar from './components/Calendar/Calendar';
+import Controls from './components/Controls/Controls';
 
 const USERS = [
   {
@@ -33,7 +33,7 @@ function App() {
   const isAdmin = true;
 
   return (
-    <Container className="p-5">
+    <Container className="pt-5">
       <Row>
         <Col>
           <h1>Calendar</h1>

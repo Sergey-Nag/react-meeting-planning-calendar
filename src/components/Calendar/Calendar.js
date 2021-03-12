@@ -1,5 +1,5 @@
 import { Table } from 'react-bootstrap';
-import Card from './Card';
+import Card from '../Card/Card';
 
 export default function Calendar() {
   const data = {

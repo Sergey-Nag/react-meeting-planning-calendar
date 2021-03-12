@@ -1,5 +1,5 @@
 import { Row, Col, Button } from 'react-bootstrap';
-import Dropdown from './Dropdown';
+import Dropdown from '../Dropdown/Dropdown';
 
 export default function Controls(args) {
 
