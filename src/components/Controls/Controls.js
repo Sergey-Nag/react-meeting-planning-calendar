@@ -3,7 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import Dropdown from "../Dropdown/Dropdown";
 
 export default function Controls(args) {
-  
+
   return (
     <Row>
       <Switch>
