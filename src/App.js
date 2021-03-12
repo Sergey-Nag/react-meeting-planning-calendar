@@ -1,31 +1,31 @@
-import { Container, Row, Col } from 'react-bootstrap';
-import Calendar from './components/Calendar/Calendar';
-import Controls from './components/Controls/Controls';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import CalendarPage from './pages/calendar';
+import CreateEventPage from './pages/createEvent';
 
 const USERS = [
   {
-    name: 'Alex',
-    avatar: '',
+    name: "Alex",
+    avatar: "",
   },
   {
-    name: 'Elizabeth',
-    avatar: '',
+    name: "Elizabeth",
+    avatar: "",
   },
   {
-    name: 'Steve',
-    avatar: '',
+    name: "Steve",
+    avatar: "",
   },
   {
-    name: 'Ann',
-    avatar: '',
+    name: "Ann",
+    avatar: "",
   },
   {
-    name: 'Maria',
-    avatar: '',
+    name: "Maria",
+    avatar: "",
   },
   {
-    name: 'Bob',
-    avatar: '',
+    name: "Bob",
+    avatar: "",
   },
 ];
 
@@ -33,21 +33,16 @@ function App() {
   const isAdmin = true;
 
   return (
-    <Container className="pt-5">
-      <Row>
-        <Col>
-          <h1>Calendar</h1>
-        </Col>
-        <Col className="pt-1">
-          <Controls isAdmin={isAdmin} users={USERS} />
-        </Col>
-      </Row>
-      <Row className="pt-2">
-        <Col>
-          <Calendar />
-        </Col>
-      </Row>
-    </Container>
+    <Router>
+        <Switch>
+          <Route exact path="/">
+            <CalendarPage isAdmin={isAdmin} users={USERS}/>
+          </Route>
+          <Route exact path="/create-event">
+            <CreateEventPage isAdmin={isAdmin} users={USERS} />
+          </Route>
+        </Switch>
+    </Router>
   );
 }
 
