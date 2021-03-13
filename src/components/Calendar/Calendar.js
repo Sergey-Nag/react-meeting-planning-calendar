@@ -1,56 +1,82 @@
 import React, { useEffect, useState } from 'react';
 import { Table } from 'react-bootstrap';
-import Card from '../Card/Card';
 import Storage from '../../services/databaseApi';
+import TableRow from './TableRow';
 
 const store = Storage.getInstance();
 
-export default function Calendar() {
-  const dates = {
-    days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
-    times: [...Array(9)].map((el, i) => `1${i}:00`),
-  };
-  const [events, setEvents] = useState([]);
+const useDb = (query) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const getEvents = async () => {
-      try {
-        const request = await store.getAllEvents();
-        return request;
-      } catch (e) {
-        console.log(e);
-        return [];
-      }
-    };
-
-    setEvents(getEvents);
+  useEffect(async () => {
+    const resp = await store[query]();
+    setData(resp);
+    setLoading(false);
   }, []);
 
-  const eventByTime = async (day, time) => {
-    const ev = await events;
-    return ev.find(({ data }) => data.day === day && data.time === time);
-  };
+  return { data, loading };
+};
+
+const TIME = [...Array(9)].map((el, i) => `1${i}:00`);
+const DAY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+
+const DATES = TIME.reduce((arr, time) => {
+  const obj = { time, days: DAY.map((day) => ({ day, event: null })) };
+
+  arr.push(obj);
+
+  return arr;
+}, []);
+
+function setEventsIntoDays(arr) {
+  const resp = DATES.map(({ time, days }) => ({
+    time,
+    days: days.map(({ day }) => {
+      const dayEvent = arr.find(
+        ({ data }) => data.day === day && data.time === time,
+      );
+
+      let res = null;
+      if (dayEvent) {
+        res = {
+          id: dayEvent.id,
+          ...{ ...dayEvent.data },
+        };
+      }
+      return { day, event: res };
+    }),
+  }));
+  console.log(resp);
+  return resp;
+}
+
+export default function Calendar() {
+  const [events, setEvents] = useState({ dates: DATES });
+
+  useEffect(async () => {
+    const req = await store.getAllEvents();
+    const data = setEventsIntoDays(req);
+    setEvents({ dates: data });
+
+    return () => setEvents(null);
+  }, []);
 
   return (
     <Table bordered className="calendar">
       <thead className="calendar__head">
         <tr className="text-center">
           <th>Time</th>
-          {dates.days.map((head) => (
-            <th key={head} className="calendar__col">
-              {head}
+          {DAY.map((day) => (
+            <th key={day} className="calendar__col">
+              {day}
             </th>
           ))}
         </tr>
       </thead>
       <tbody className="calendar__body">
-        {dates.times.map((time) => (
-          <tr key={time}>
-            <th key="i">{time}</th>
-            {dates.days.map((day) => (
-              <td key={`${day}-${time}`} data-day={day} data-time={time} />
-            ))}
-          </tr>
+        {events?.dates?.map(({ time, days }) => (
+          <TableRow key={time} time={time} events={days} />
         ))}
       </tbody>
     </Table>
