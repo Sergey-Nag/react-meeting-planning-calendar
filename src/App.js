@@ -44,31 +44,31 @@ function App() {
   const [isAdmin, setAdmin] = useState();
 
   return (
-    <Router>
-      <AuthContext.Provider value={[isAdmin, setAdmin]}>
+    <AuthContext.Provider value={[isAdmin, setAdmin]}>
+      <Router>
         {isAdmin === undefined && <AuthorizeAlert users={USERS} />}
-      </AuthContext.Provider>
-      <Container className="pt-5">
-        <Row>
-          <Col>
-            <h1>Calendar</h1>
-          </Col>
-          <Col className="pt-1">
-            <Controls isAdmin={isAdmin} users={USERS} />
-          </Col>
-        </Row>
-        <Row className="pt-2">
-          <Col>
-            <Route exact path="/">
-              <Calendar isAdmin={isAdmin} users={USERS} />
-            </Route>
-            <Route exact path="/create-event">
-              <Form />
-            </Route>
-          </Col>
-        </Row>
-      </Container>
-    </Router>
+        <Container className="pt-5">
+          <Row>
+            <Col>
+              <h1>Calendar</h1>
+            </Col>
+            <Col className="pt-1">
+              <Controls isAdmin={isAdmin} users={USERS} />
+            </Col>
+          </Row>
+          <Row className="pt-2">
+            <Col>
+              <Route exact path="/">
+                <Calendar isAdmin={isAdmin} users={USERS} />
+              </Route>
+              <Route exact path="/create-event">
+                <Form />
+              </Route>
+            </Col>
+          </Row>
+        </Container>
+      </Router>
+    </AuthContext.Provider>
   );
 }
 

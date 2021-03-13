@@ -29,6 +29,7 @@
     ],
     "rules": {
       "linebreak-style": 0,
+      "no-console": 0,
       "react/jsx-filename-extension": 0,
       "eol-last": ["error", "always"],
       "jsx-a11y/control-has-associated-label": 0,

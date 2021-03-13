@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Switch, Link, Route } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import Dropdown from '../Dropdown/Dropdown';
+import AuthContext from '../../contexts/authContext';
 
 export default function Controls(args) {
+  const [isAdmin] = useContext(AuthContext);
+
   return (
     <Row>
       <Switch>
@@ -11,7 +14,7 @@ export default function Controls(args) {
           <Col>
             <Dropdown users={args.users} />
           </Col>
-          {args.isAdmin && (
+          {isAdmin && (
             <Col>
               <Link
                 to="/create-event"

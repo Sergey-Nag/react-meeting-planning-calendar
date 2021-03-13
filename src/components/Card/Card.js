@@ -1,7 +1,10 @@
 import React from 'react';
 
-export default function Card({ event }) {
-  const { id, title } = event;
+export default async function Card({ event }) {
+  if (await event === undefined) return <div />;
+
+  const { id, data } = event;
+  console.log(await event);
 
   return (
     <div
@@ -9,7 +12,7 @@ export default function Card({ event }) {
       data-id={id}
     >
       <div className="card__title">
-        <span>{title}</span>
+        <span>{data}</span>
       </div>
       <div className="card__avatars" />
       <button type="button" className="card__btn card__btn_close" />
