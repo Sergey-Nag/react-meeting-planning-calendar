@@ -1,11 +1,9 @@
-import { useEffect } from "react";
+import React, { useEffect } from 'react';
 
 export default function Form() {
-  useEffect(()=>{
+  useEffect(() => {
     document.title = 'Create form';
   }, []);
-  
-  return (
-      <form></form>
-  );
+
+  return <form />;
 }

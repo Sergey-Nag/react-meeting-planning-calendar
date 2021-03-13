@@ -23,9 +23,17 @@
   },
   "eslintConfig": {
     "extends": [
+      "airbnb",
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "linebreak-style": 0,
+      "react/jsx-filename-extension": 0,
+      "eol-last": ["error", "always"],
+      "jsx-a11y/control-has-associated-label": 0,
+      "react/prop-types": 0
+    }
   },
   "browserslist": {
     "production": [
@@ -40,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "eslint-config-airbnb": "^18.2.1",
     "sass": "^1.32.8"
   }
 }

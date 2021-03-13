@@ -1,10 +1,14 @@
-import "./alerts.scss";
-import { Button, Col, Form, Row } from "react-bootstrap";
-import { useContext, useRef } from "react";
-import AuthContext from "../../contexts/authContext";
+import React, { useContext, useRef } from 'react';
+import {
+  Button,
+  Col,
+  Form,
+  Row,
+} from 'react-bootstrap';
+import AuthContext from '../../contexts/authContext';
 // import { useEffect, useState } from "react";
 
-export function AuthorizeAlert({ users }) {
+export default function AuthorizeAlert({ users }) {
   const [, setAdmin] = useContext(AuthContext);
   const selectUsers = useRef(null);
 
@@ -16,11 +20,12 @@ export function AuthorizeAlert({ users }) {
 
   return (
     <div className="alert__wrapp">
-      <div className="alert bg-light" style={{ width: "300px" }}>
-        Please authorise <br />
+      <div className="alert bg-light" style={{ width: '300px' }}>
+        Please authorise
+        <br />
         <Form.Control as="select" custom className="mt-2" ref={selectUsers}>
-          {users.map(({ name }, i) => (
-            <option key={i}>{name}</option>
+          {users.map(({ name }) => (
+            <option key={`user-${name}`}>{name}</option>
           ))}
         </Form.Control>
         <hr />
