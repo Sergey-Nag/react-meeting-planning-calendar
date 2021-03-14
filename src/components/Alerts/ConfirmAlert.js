@@ -1,21 +1,35 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import AlertContext from '../../contexts/AlertContext';
 
 export default function ConfirmAlert() {
   const [alert, setAlert] = useContext(AlertContext);
+  const wrapper = useRef();
 
   const denyHandler = () => {
-    alert?.onDeny();
+    if (alert.onDeny) alert.onDeny();
     setAlert({ show: false });
   };
   const confirmHandler = () => {
-    alert?.onConfirm();
+    if (alert.onConfirm) alert.onConfirm();
     setAlert({ show: false });
   };
 
+  useEffect(() => {
+    const wrapp = wrapper.current;
+    const clickAsideHandler = (e) => {
+      if (e.target.className === 'alert__wrapp') denyHandler();
+    };
+
+    wrapp.addEventListener('click', clickAsideHandler);
+
+    return () => {
+      wrapp.removeEventListener('click', clickAsideHandler);
+    };
+  }, []);
+
   return (
-    <div className="alert__wrapp">
+    <div className="alert__wrapp" ref={wrapper}>
       <div className="alert bg-light">
         {alert.text}
         <br />

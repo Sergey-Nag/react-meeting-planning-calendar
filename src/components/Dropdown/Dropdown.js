@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'react-bootstrap';
-import Storage from '../../services/databaseApi';
+import Storage from '../../services/Storage';
 
 const store = Storage.getInstance();
 

@@ -1,11 +1,8 @@
 import React, { useContext } from 'react';
 import { Table } from 'react-bootstrap';
-// import Storage from '../../services/databaseApi';
 import TableRow from './TableRow';
 import { DAY } from '../../helpers/helpers';
 import EventsContext from '../../contexts/EventsContext';
-
-// const store = Storage.getInstance();
 
 export default function Calendar({ setAlert }) {
   const [events] = useContext(EventsContext);

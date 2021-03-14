@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import AlertContext from '../../contexts/AlertContext';
 import UsersContext from '../../contexts/UsersContext';
-import Storage from '../../services/databaseApi';
+import Storage from '../../services/Storage';
 
 const store = Storage.getInstance();
 
@@ -11,7 +11,7 @@ export default function EventCard({ id, title }) {
       authUser: { access },
     },
   ] = useContext(UsersContext);
-  const [alert, setAlert] = useContext(AlertContext);
+  const [, setAlert] = useContext(AlertContext);
 
   const showDeleteConfirm = () => {
     setAlert({
@@ -20,7 +20,6 @@ export default function EventCard({ id, title }) {
       onConfirm: async () => store.removeEvent(id),
       onDeny: () => console.log('not removed'),
     });
-    console.log(alert);
   };
 
   return (

@@ -9,7 +9,7 @@ import ConfirmAlert from './components/Alerts/ConfirmAlert';
 import UsersContext from './contexts/UsersContext';
 import EventsContext from './contexts/EventsContext';
 import AlertContext from './contexts/AlertContext';
-import Store from './services/databaseApi';
+import Store from './services/Storage';
 import createUser from './users/createUser';
 import Admin from './users/Admin';
 import { setEventsIntoDays } from './helpers/helpers';
@@ -20,7 +20,7 @@ function applyUsers(users) {
   return users.map(createUser);
 }
 
-function App() {
+export default function App() {
   const [users, setUsers] = useState({ list: [], authUser: null });
   const [events, setEvents] = useState([]);
   const [alert, setAlert] = useState({ show: false });
@@ -81,5 +81,3 @@ function App() {
     </UsersContext.Provider>
   );
 }
-
-export default App;

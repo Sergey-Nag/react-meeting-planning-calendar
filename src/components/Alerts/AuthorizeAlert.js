@@ -1,17 +1,13 @@
 import React, { useContext, useRef } from 'react';
-import {
-  Button,
-  Col,
-  Form,
-  Row,
-} from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import UsersContext from '../../contexts/UsersContext';
+import Admin from '../../users/Admin';
 
 export default function AuthorizeAlert() {
   const [users, setUsers] = useContext(UsersContext);
   const selectUsers = useRef(null);
 
-  const authorizeUser = (e) => {
+  const authorizeUser = () => {
     const chosenUser = selectUsers.current.value;
     setUsers({
       ...users,
@@ -27,8 +23,10 @@ export default function AuthorizeAlert() {
         Please authorise
         <br />
         <Form.Control as="select" custom className="mt-2" ref={selectUsers}>
-          {users.list.map(({ id, name }) => (
-            <option key={id}>{name}</option>
+          {users.list.map((user) => (
+            <option key={user.id} title={user instanceof Admin ? 'Admin' : ''}>
+              {user.name}
+            </option>
           ))}
         </Form.Control>
         <hr />

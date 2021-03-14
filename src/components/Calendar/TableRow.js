@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import UsersContext from '../../contexts/UsersContext';
-import EventCard from '../Card/EventCard';
+import EventCard from '../EventCard/EventCard';
 
 export default function TableRow({ time, events }) {
   const [{ authUser }] = useContext(UsersContext);

@@ -36,7 +36,9 @@
       "react/prop-types": 0,
       "react-hooks/exhaustive-deps": 0,
       "implicit-arrow-linebreak": 0,
-      "operator-linebreak": 0
+      "operator-linebreak": 0,
+      "max-classes-per-file": ["error", 2],
+      "object-curly-newline": 0
     }
   },
   "browserslist": {
