@@ -1,51 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Table } from 'react-bootstrap';
-import Storage from '../../services/databaseApi';
+// import Storage from '../../services/databaseApi';
 import TableRow from './TableRow';
+import { DAY } from '../../helpers/helpers';
+import EventsContext from '../../contexts/EventsContext';
 
-const store = Storage.getInstance();
+// const store = Storage.getInstance();
 
-const TIME = [...Array(9)].map((el, i) => `1${i}:00`);
-const DAY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
-
-const DATES = TIME.reduce((arr, time) => {
-  const obj = { time, days: DAY.map((day) => ({ day, event: null })) };
-
-  arr.push(obj);
-
-  return arr;
-}, []);
-
-function setEventsIntoDays(arr) {
-  return DATES.map(({ time, days }) => ({
-    time,
-    days: days.map(({ day }) => {
-      const dayEvent = arr.find(
-        ({ data }) => data.day === day && data.time === time,
-      );
-
-      let res = null;
-      if (dayEvent) {
-        res = {
-          id: dayEvent.id,
-          ...{ ...dayEvent.data },
-        };
-      }
-      return { day, event: res };
-    }),
-  }));
-}
-
-export default function Calendar() {
-  const [events, setEvents] = useState(DATES);
-
-  useEffect(async () => {
-    const req = await store.getAllEvents();
-    const data = setEventsIntoDays(req);
-    setEvents(data);
-
-    return () => setEvents(null);
-  }, []);
+export default function Calendar({ setAlert }) {
+  const [events] = useContext(EventsContext);
 
   return (
     <Table bordered className="calendar">
@@ -61,7 +24,7 @@ export default function Calendar() {
       </thead>
       <tbody className="calendar__body">
         {events.map(({ time, days }) => (
-          <TableRow key={time} time={time} events={days} />
+          <TableRow key={time} time={time} events={days} setAlert={setAlert} />
         ))}
       </tbody>
     </Table>
