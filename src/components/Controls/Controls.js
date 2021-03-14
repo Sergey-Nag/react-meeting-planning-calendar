@@ -2,19 +2,20 @@ import React, { useContext } from 'react';
 import { Switch, Link, Route } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import Dropdown from '../Dropdown/Dropdown';
-import AuthContext from '../../contexts/authContext';
+import UsersContext from '../../contexts/UsersContext';
 
-export default function Controls(args) {
-  const [isAdmin] = useContext(AuthContext);
+export default function Controls() {
+  const [users] = useContext(UsersContext);
+  const { access } = users.authUser;
 
   return (
     <Row>
       <Switch>
         <Route exact path="/">
           <Col>
-            <Dropdown users={args.users} />
+            <Dropdown users={users.list} />
           </Col>
-          {isAdmin && (
+          {access.createEvents && (
             <Col>
               <Link
                 to="/create-event"

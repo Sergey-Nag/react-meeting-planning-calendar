@@ -5,19 +5,6 @@ import TableRow from './TableRow';
 
 const store = Storage.getInstance();
 
-const useDb = (query) => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(async () => {
-    const resp = await store[query]();
-    setData(resp);
-    setLoading(false);
-  }, []);
-
-  return { data, loading };
-};
-
 const TIME = [...Array(9)].map((el, i) => `1${i}:00`);
 const DAY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
@@ -30,7 +17,7 @@ const DATES = TIME.reduce((arr, time) => {
 }, []);
 
 function setEventsIntoDays(arr) {
-  const resp = DATES.map(({ time, days }) => ({
+  return DATES.map(({ time, days }) => ({
     time,
     days: days.map(({ day }) => {
       const dayEvent = arr.find(
@@ -47,17 +34,15 @@ function setEventsIntoDays(arr) {
       return { day, event: res };
     }),
   }));
-  console.log(resp);
-  return resp;
 }
 
 export default function Calendar() {
-  const [events, setEvents] = useState({ dates: DATES });
+  const [events, setEvents] = useState(DATES);
 
   useEffect(async () => {
     const req = await store.getAllEvents();
     const data = setEventsIntoDays(req);
-    setEvents({ dates: data });
+    setEvents(data);
 
     return () => setEvents(null);
   }, []);
@@ -75,7 +60,7 @@ export default function Calendar() {
         </tr>
       </thead>
       <tbody className="calendar__body">
-        {events?.dates?.map(({ time, days }) => (
+        {events.map(({ time, days }) => (
           <TableRow key={time} time={time} events={days} />
         ))}
       </tbody>

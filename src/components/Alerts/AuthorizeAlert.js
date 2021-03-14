@@ -5,17 +5,20 @@ import {
   Form,
   Row,
 } from 'react-bootstrap';
-import AuthContext from '../../contexts/authContext';
-// import { useEffect, useState } from "react";
+import UsersContext from '../../contexts/UsersContext';
 
-export default function AuthorizeAlert({ users }) {
-  const [, setAdmin] = useContext(AuthContext);
+export default function AuthorizeAlert() {
+  const [users, setUsers] = useContext(UsersContext);
   const selectUsers = useRef(null);
 
   const authorizeUser = (e) => {
     const chosenUser = selectUsers.current.value;
-    const isUserAdmin = users.find(({ name }) => name === chosenUser).isAdmin;
-    setAdmin(isUserAdmin);
+    setUsers({
+      ...users,
+      ...{
+        authUser: users.list.find(({ name }) => name === chosenUser),
+      },
+    });
   };
 
   return (
@@ -24,8 +27,8 @@ export default function AuthorizeAlert({ users }) {
         Please authorise
         <br />
         <Form.Control as="select" custom className="mt-2" ref={selectUsers}>
-          {users.map(({ name }) => (
-            <option key={`user-${name}`}>{name}</option>
+          {users.list.map(({ id, name }) => (
+            <option key={id}>{name}</option>
           ))}
         </Form.Control>
         <hr />

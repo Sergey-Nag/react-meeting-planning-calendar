@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import UsersContext from '../../contexts/UsersContext';
 import Card from '../Card/Card';
 
-export default function TableRow({ key, time, events }) {
-  console.log(events);
+export default function TableRow({ time, events }) {
+  const [{ authUser }] = useContext(UsersContext);
+
   return (
-    <tr key={key}>
+    <tr>
       <th>{time}</th>
       {events.map(({ day, event }) => (
         <td key={day}>
-          {' '}
-          {event && <Card key={day} id={event.id} title={event.title} />}
+          {authUser && event && <Card key={day} id={event.id} title={event.title} />}
         </td>
       ))}
     </tr>
