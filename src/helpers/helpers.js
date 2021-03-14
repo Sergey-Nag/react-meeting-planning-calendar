@@ -31,9 +31,24 @@ function setEventsIntoDays(arr) {
   }));
 }
 
+function createPopUp(alert, setAlert) {
+  return (theme, text) => {
+    const list = alert.list ?? [];
+
+    list.push({ theme, text, created: Date.now() });
+
+    setAlert({
+      show: true,
+      type: 'popup',
+      list,
+    });
+  };
+}
+
 export {
   DAY,
   TIME,
   DATES,
   setEventsIntoDays,
+  createPopUp,
 };

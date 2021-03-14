@@ -7,25 +7,24 @@ export default function ConfirmAlert() {
   const wrapper = useRef();
 
   const denyHandler = () => {
-    if (alert.onDeny) alert.onDeny();
     setAlert({ show: false });
+    if (alert.onDeny) alert.onDeny();
   };
   const confirmHandler = () => {
-    if (alert.onConfirm) alert.onConfirm();
     setAlert({ show: false });
+    if (alert.onConfirm) alert.onConfirm();
   };
 
   useEffect(() => {
-    const wrapp = wrapper.current;
+    const backdrop = wrapper.current;
     const clickAsideHandler = (e) => {
+      console.log(e.target === backdrop);
       if (e.target.className === 'alert__wrapp') denyHandler();
     };
 
-    wrapp.addEventListener('click', clickAsideHandler);
+    backdrop.addEventListener('click', clickAsideHandler);
 
-    return () => {
-      wrapp.removeEventListener('click', clickAsideHandler);
-    };
+    return () => backdrop.removeEventListener('click', clickAsideHandler);
   }, []);
 
   return (

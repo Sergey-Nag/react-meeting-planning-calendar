@@ -2,8 +2,10 @@ import React, { useContext } from 'react';
 import AlertContext from '../../contexts/AlertContext';
 import UsersContext from '../../contexts/UsersContext';
 import Storage from '../../services/Storage';
+import NotifyResponse from '../../services/SrotageDecorator';
+import { createPopUp } from '../../helpers/helpers';
 
-const store = Storage.getInstance();
+const storeInstance = Storage.getInstance();
 
 export default function EventCard({ id, title }) {
   const [
@@ -11,14 +13,15 @@ export default function EventCard({ id, title }) {
       authUser: { access },
     },
   ] = useContext(UsersContext);
-  const [, setAlert] = useContext(AlertContext);
+  const [alert, setAlert] = useContext(AlertContext);
+  const store = new NotifyResponse(storeInstance, createPopUp(alert, setAlert));
 
   const showDeleteConfirm = () => {
     setAlert({
       show: true,
+      type: 'confirm',
       text: `Are you sure you want to delete "${title}" event?`,
       onConfirm: async () => store.removeEvent(id),
-      onDeny: () => console.log('not removed'),
     });
   };
 

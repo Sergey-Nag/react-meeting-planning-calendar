@@ -2,9 +2,10 @@
 import Storage from './Storage';
 
 class NotifierQueryStorage extends Storage {
-  constructor(storage) {
+  constructor(storage, showPopup = null) {
     super();
 
+    this.showPopup = showPopup;
     this.storage = storage;
   }
 }
@@ -41,23 +42,23 @@ export default class NotifyResponse extends NotifierQueryStorage {
 
       if (typeof this.storage.preFilter === 'function') return events;
 
-    //   if (events.length === 0)
-    //     showPopup(
-    //       'warning',
-    //       '<i class="bi font-icon bi-cloud-check"></i> Not enough events to display'
-    //     );
-    //   else if (events)
-    //     showPopup(
-    //       'success',
-    //       '<i class="bi font-icon bi-cloud-check"></i> Events successfully loaded'
-    //     );
-    //   else throw new Error();
+      //   if (events.length === 0)
+      //     showPopup(
+      //       'warning',
+      //       '<i class="bi font-icon bi-cloud-check"></i> Not enough events to display'
+      //     );
+      //   else if (events)
+      //     showPopup(
+      //       'success',
+      //       '<i class="bi font-icon bi-cloud-check"></i> Events successfully loaded'
+      //     );
+      //   else throw new Error();
     } catch (e) {
-    //   showPopup(
-    //     'danger',
-    //     '<i class="bi font-icon
-    //  bi-cloud-slash-fill"></i> <b>Loading Events error</b>, please, try again'
-    //   );
+      //   showPopup(
+      //     'danger',
+      //     '<i class="bi font-icon
+      //  bi-cloud-slash-fill"></i> <b>Loading Events error</b>, please, try again'
+      //   );
     }
 
     return events;
@@ -106,18 +107,15 @@ export default class NotifyResponse extends NotifierQueryStorage {
     try {
       const deleteQuery = await this.storage.removeEvent(id);
 
-      // if (deleteQuery)
-      //   showPopup(
-      //     'success',
-      //     '<i class="bi font-icon bi-trash"></i> Event successfully deleted'
-      //   );
-      // else throw new Error();
+      if (deleteQuery) {
+        this.showPopup('success', 'Event successfully deleted');
+      } else throw new Error();
     } catch (e) {
-      // showPopup(
-      //   'danger',
-      //   '<i class="bi font-icon bi-trash-fill"></i> <b>Deleting Events error</b>, please try again'
-      // );
-      // return false;
+      this.showPopup(
+        'danger',
+        'Deleting Events error</b>, please try again',
+      );
+      return false;
     }
 
     return true;

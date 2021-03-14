@@ -13,6 +13,7 @@ import Store from './services/Storage';
 import createUser from './users/createUser';
 import Admin from './users/Admin';
 import { setEventsIntoDays } from './helpers/helpers';
+import PopUp from './components/Alerts/PopUp';
 
 const store = Store.getInstance();
 
@@ -47,7 +48,8 @@ export default function App() {
     <UsersContext.Provider value={[users, setUsers]}>
       <AlertContext.Provider value={[alert, setAlert]}>
         <Router>
-          {alert.show && <ConfirmAlert />}
+          {alert.show && alert.type === 'popup' && <PopUp />}
+          {alert.show && alert.type === 'confirm' && <ConfirmAlert />}
           {users.authUser === null && <AuthorizeAlert />}
           <Container className="pt-5">
             <Row>
