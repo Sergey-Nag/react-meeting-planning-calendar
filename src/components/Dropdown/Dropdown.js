@@ -16,9 +16,7 @@ export default function Dropdown(users) {
 
     setEvents({
       ...events,
-      ...{
-        count: events.count + 1,
-      },
+      count: events.count + 1,
     });
   };
 
