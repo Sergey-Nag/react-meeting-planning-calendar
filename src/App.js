@@ -40,7 +40,7 @@ export default function App() {
     const req = await store.getPreFilteredEvents();
     const data = setEventsIntoDays(req);
     setEvents(data);
-  }, [events]);
+  }, []);
 
   const isAdmin = () => users.authUser instanceof Admin;
 
