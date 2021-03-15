@@ -4,10 +4,13 @@ import UsersContext from '../../contexts/UsersContext';
 import Storage from '../../services/Storage';
 import NotifyResponse from '../../services/SrotageDecorator';
 import { createPopUp } from '../../helpers/helpers';
+import EventsContext from '../../contexts/EventsContext';
 
 const storeInstance = Storage.getInstance();
 
 export default function EventCard({ id, title }) {
+  const [events, setEvents] = useContext(EventsContext);
+
   const [
     {
       authUser: { access },
@@ -21,7 +24,15 @@ export default function EventCard({ id, title }) {
       show: true,
       type: 'confirm',
       text: `Are you sure you want to delete "${title}" event?`,
-      onConfirm: async () => store.removeEvent(id),
+      onConfirm: async () => {
+        const isRemoved = await store.removeEvent(id);
+        if (isRemoved) {
+          setEvents({
+            ...events,
+            count: events.count + 1,
+          });
+        }
+      },
     });
   };
 

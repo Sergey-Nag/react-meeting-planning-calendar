@@ -45,4 +45,9 @@
 .popup {
   font-size: 1em;
   min-width: 250px;
+
+  &__num {
+    color: rgba(0, 0, 0, 0.15);
+    margin-right: 5px;
+  }
 }

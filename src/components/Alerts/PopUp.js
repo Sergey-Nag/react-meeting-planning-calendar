@@ -6,25 +6,27 @@ export default function PopUp() {
 
   useEffect(() => {
     const popupsInterval = setInterval(() => {
-      const index = alert.list.findIndex(
-        ({ created }) => created < Date.now() - 3000,
-      );
-
-      if (index !== -1) {
-        alert.list.splice(index, 1);
-      }
+      setAlert({
+        ...alert,
+        list: alert.list.slice(1, alert.length),
+      });
 
       if (alert.list.length === 0) setAlert({ show: false });
     }, 3000);
 
+    console.count('popup');
+
     return () => clearInterval(popupsInterval);
-  }, []);
+  }, [alert.list.length]);
 
   return (
     <div className="popup__wrapp">
-      {alert.list.map(({ created, theme, text }) => (
-        <div key={created} className={`popup row alert alert-${theme} mb-3`}>
-          <span className="popup__title">{text}</span>
+      {alert.list.map(({ id, num, theme, text }) => (
+        <div key={id} className={`popup row alert alert-${theme} mb-3`}>
+          <span className="popup__title">
+            <b className="popup__num">{num}</b>
+            {text}
+          </span>
         </div>
       ))}
     </div>

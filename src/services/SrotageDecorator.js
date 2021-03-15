@@ -2,7 +2,7 @@
 import Storage from './Storage';
 
 class NotifierQueryStorage extends Storage {
-  constructor(storage, showPopup = null) {
+  constructor(storage, showPopup) {
     super();
 
     this.showPopup = showPopup;
@@ -17,18 +17,11 @@ export default class NotifyResponse extends NotifierQueryStorage {
     try {
       users = await this.storage.getAllUsers();
 
-      // if (users)
-      //   showPopup(
-      //     'success',
-      //     '<i class="bi font-icon bi-cloud-check"></i> Users successfully loaded'
-      //   );
-      // else throw new Error();
+      if (users) {
+        this.showPopup('success', 'Users successfully loaded');
+      } else throw new Error();
     } catch (e) {
-      // showPopup(
-      //   'danger',
-      //   '<i class="bi font-icon bi-cloud-slash-fill">
-      // </i> <b>Loading Users error</b>, please, try again'
-      // );
+      this.showPopup('danger', 'Loading Users error</b>, please, try again');
     }
 
     return users;
@@ -42,23 +35,13 @@ export default class NotifyResponse extends NotifierQueryStorage {
 
       if (typeof this.storage.preFilter === 'function') return events;
 
-      //   if (events.length === 0)
-      //     showPopup(
-      //       'warning',
-      //       '<i class="bi font-icon bi-cloud-check"></i> Not enough events to display'
-      //     );
-      //   else if (events)
-      //     showPopup(
-      //       'success',
-      //       '<i class="bi font-icon bi-cloud-check"></i> Events successfully loaded'
-      //     );
-      //   else throw new Error();
+      if (events.length === 0) {
+        this.showPopup('warning', 'Not enough events to display');
+      } else if (events) {
+        this.showPopup('success', 'Events successfully loaded');
+      } else throw new Error();
     } catch (e) {
-      //   showPopup(
-      //     'danger',
-      //     '<i class="bi font-icon
-      //  bi-cloud-slash-fill"></i> <b>Loading Events error</b>, please, try again'
-      //   );
+      this.showPopup('danger', 'Loading Events error, please, try again');
     }
 
     return events;
@@ -67,16 +50,15 @@ export default class NotifyResponse extends NotifierQueryStorage {
   async setEvent(data) {
     try {
       const setQuery = await this.storage.setEvent(data);
-      // if (setQuery)
-      //   showPopup('success', `Event "${data.title}" was successfully created`);
-      // else throw new Error();
+      if (setQuery) {
+        this.showPopup(
+          'success',
+          `Event "${data.title}" was successfully created`,
+        );
+      } else throw new Error();
     } catch (e) {
-      // showPopup(
-      //   'danger',
-      //   '<i class="bi font-icon bi-cloud-slash-fill">
-      // </i> <b>Create Event error</b>, please, try again'
-      // );
-      // return false;
+      this.showPopup('danger', 'Create Event error</b>, please, try again');
+      return false;
     }
 
     return true;
@@ -86,17 +68,11 @@ export default class NotifyResponse extends NotifierQueryStorage {
     try {
       const updQuery = await this.storage.updateEvent(...args);
 
-      // if (updQuery)
-      //   showPopup(
-      //     'success',
-      //     '<i class="bi bi-cloud-check"></i> Event was successfully updated'
-      //   );
-      // else throw new Error();
+      if (updQuery) {
+        this.showPopup('success', 'Event was successfully updated');
+      } else throw new Error();
     } catch (e) {
-      // showPopup(
-      //   'danger',
-      //   '<i class="bi bi-cloud-slash-fill"></i> <b>Event wasn\'t updated</b>, please, try again'
-      // );
+      this.showPopup('danger', "Event wasn't updated, please, try again");
       return false;
     }
 
@@ -111,10 +87,7 @@ export default class NotifyResponse extends NotifierQueryStorage {
         this.showPopup('success', 'Event successfully deleted');
       } else throw new Error();
     } catch (e) {
-      this.showPopup(
-        'danger',
-        'Deleting Events error</b>, please try again',
-      );
+      this.showPopup('danger', 'Deleting Events error, please try again');
       return false;
     }
 

@@ -12,10 +12,11 @@ import AlertContext from './contexts/AlertContext';
 import Store from './services/Storage';
 import createUser from './users/createUser';
 import Admin from './users/Admin';
-import { setEventsIntoDays } from './helpers/helpers';
+import { createPopUp, setEventsIntoDays } from './helpers/helpers';
 import PopUp from './components/Alerts/PopUp';
+import NotifyResponse from './services/SrotageDecorator';
 
-const store = Store.getInstance();
+const storeInstance = Store.getInstance();
 
 function applyUsers(users) {
   return users.map(createUser);
@@ -25,6 +26,7 @@ export default function App() {
   const [users, setUsers] = useState({ list: [], authUser: null });
   const [events, setEvents] = useState({ list: [], count: 0 });
   const [alert, setAlert] = useState({ show: false });
+  const store = new NotifyResponse(storeInstance, createPopUp(alert, setAlert));
 
   useEffect(async () => {
     const reqUsers = await store.getAllUsers();

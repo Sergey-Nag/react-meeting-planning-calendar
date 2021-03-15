@@ -1,3 +1,5 @@
+import uniqid from 'uniqid';
+
 const TIME = [...Array(9)].map((el, i) => `1${i}:00`);
 const DAY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
 
@@ -33,22 +35,24 @@ function setEventsIntoDays(arr) {
 
 function createPopUp(alert, setAlert) {
   return (theme, text) => {
-    const list = alert.list ?? [];
+    const SET = (lst) => (
+      alert.type === 'popup'
+        ? { ...alert, list: lst }
+        : { show: true, type: 'popup', list: lst }
+    );
 
-    list.push({ theme, text, created: Date.now() });
+    const list = alert.list ? [...alert.list] : [];
+    const lastNum = alert.list?.length > 0 ? list[list.length - 1].num + 1 : 1;
 
-    setAlert({
-      show: true,
-      type: 'popup',
-      list,
+    list.push({
+      num: lastNum,
+      id: uniqid(),
+      theme,
+      text,
     });
+
+    setAlert(SET(list));
   };
 }
 
-export {
-  DAY,
-  TIME,
-  DATES,
-  setEventsIntoDays,
-  createPopUp,
-};
+export { DAY, TIME, DATES, setEventsIntoDays, createPopUp };
