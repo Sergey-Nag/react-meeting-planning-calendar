@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Controls from './components/Controls/Controls';
 import Calendar from './components/Calendar/Calendar';
-import Form from './components/Form/Form';
+import CreateEvent from './components/CreateEvent/CreateEvent';
 import AuthorizeAlert from './components/Alerts/AuthorizeAlert';
 import ConfirmAlert from './components/Alerts/ConfirmAlert';
 import UsersContext from './contexts/UsersContext';
@@ -11,7 +11,6 @@ import EventsContext from './contexts/EventsContext';
 import AlertContext from './contexts/AlertContext';
 import Store from './services/Storage';
 import createUser from './users/createUser';
-import Admin from './users/Admin';
 import { createPopUp, setEventsIntoDays } from './helpers/helpers';
 import PopUp from './components/Alerts/PopUp';
 import NotifyResponse from './services/SrotageDecorator';
@@ -32,9 +31,7 @@ export default function App() {
     const reqUsers = await store.getAllUsers();
     setUsers({
       ...users,
-      ...{
-        list: applyUsers(reqUsers),
-      },
+      list: applyUsers(reqUsers),
     });
   }, []);
 
@@ -43,13 +40,9 @@ export default function App() {
     const data = setEventsIntoDays(req);
     setEvents({
       ...events,
-      ...{
-        list: data,
-      },
+      list: data,
     });
   }, [events.count]);
-
-  const isAdmin = () => users.authUser instanceof Admin;
 
   return (
     <UsersContext.Provider value={[users, setUsers]}>
@@ -66,20 +59,17 @@ export default function App() {
                 </Col>
                 <Col className="pt-1">
                   {users.authUser !== null && (
-                    <Controls isAdmin={isAdmin()} users={users.list} />
+                    <Controls users={users.list} />
                   )}
                 </Col>
               </Row>
               <Row className="pt-2">
                 <Col>
                   <Route exact path="/">
-                    <Calendar
-                      isAdmin={isAdmin()}
-                      users={users.list}
-                    />
+                    <Calendar />
                   </Route>
                   <Route exact path="/create-event">
-                    <Form />
+                    <CreateEvent />
                   </Route>
                 </Col>
               </Row>
