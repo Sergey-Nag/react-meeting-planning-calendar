@@ -23,7 +23,7 @@ function applyUsers(users) {
 
 export default function App() {
   const [users, setUsers] = useState({ list: [], authUser: null });
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState({ list: [], count: 0 });
   const [alert, setAlert] = useState({ show: false });
 
   useEffect(async () => {
@@ -39,32 +39,37 @@ export default function App() {
   useEffect(async () => {
     const req = await store.getPreFilteredEvents();
     const data = setEventsIntoDays(req);
-    setEvents(data);
-  }, []);
+    setEvents({
+      ...events,
+      ...{
+        list: data,
+      },
+    });
+  }, [events.count]);
 
   const isAdmin = () => users.authUser instanceof Admin;
 
   return (
     <UsersContext.Provider value={[users, setUsers]}>
-      <AlertContext.Provider value={[alert, setAlert]}>
-        <Router>
-          {alert.show && alert.type === 'popup' && <PopUp />}
-          {alert.show && alert.type === 'confirm' && <ConfirmAlert />}
-          {users.authUser === null && <AuthorizeAlert />}
-          <Container className="pt-5">
-            <Row>
-              <Col>
-                <h1>Calendar</h1>
-              </Col>
-              <Col className="pt-1">
-                {users.authUser !== null && (
-                  <Controls isAdmin={isAdmin()} users={users.list} />
-                )}
-              </Col>
-            </Row>
-            <Row className="pt-2">
-              <Col>
-                <EventsContext.Provider value={[events, setEvents]}>
+      <EventsContext.Provider value={[events, setEvents]}>
+        <AlertContext.Provider value={[alert, setAlert]}>
+          <Router>
+            {alert.show && alert.type === 'popup' && <PopUp />}
+            {alert.show && alert.type === 'confirm' && <ConfirmAlert />}
+            {users.authUser === null && <AuthorizeAlert />}
+            <Container className="pt-5">
+              <Row>
+                <Col>
+                  <h1>Calendar</h1>
+                </Col>
+                <Col className="pt-1">
+                  {users.authUser !== null && (
+                    <Controls isAdmin={isAdmin()} users={users.list} />
+                  )}
+                </Col>
+              </Row>
+              <Row className="pt-2">
+                <Col>
                   <Route exact path="/">
                     <Calendar
                       isAdmin={isAdmin()}
@@ -74,12 +79,12 @@ export default function App() {
                   <Route exact path="/create-event">
                     <Form />
                   </Route>
-                </EventsContext.Provider>
-              </Col>
-            </Row>
-          </Container>
-        </Router>
-      </AlertContext.Provider>
+                </Col>
+              </Row>
+            </Container>
+          </Router>
+        </AlertContext.Provider>
+      </EventsContext.Provider>
     </UsersContext.Provider>
   );
 }

@@ -20,7 +20,7 @@ export default function Calendar({ setAlert }) {
         </tr>
       </thead>
       <tbody className="calendar__body">
-        {events.map(({ time, days }) => (
+        {events.list.map(({ time, days }) => (
           <TableRow key={time} time={time} events={days} setAlert={setAlert} />
         ))}
       </tbody>

@@ -31,13 +31,19 @@
       "linebreak-style": 0,
       "no-console": 0,
       "react/jsx-filename-extension": 0,
-      "eol-last": ["error", "always"],
+      "eol-last": [
+        "error",
+        "always"
+      ],
       "jsx-a11y/control-has-associated-label": 0,
       "react/prop-types": 0,
       "react-hooks/exhaustive-deps": 0,
       "implicit-arrow-linebreak": 0,
       "operator-linebreak": 0,
-      "max-classes-per-file": ["error", 2],
+      "max-classes-per-file": [
+        "error",
+        2
+      ],
       "object-curly-newline": 0
     }
   },

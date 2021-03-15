@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Form } from 'react-bootstrap';
 import Storage from '../../services/Storage';
+import EventsContext from '../../contexts/EventsContext';
 
 const store = Storage.getInstance();
 
 export default function Dropdown(users) {
+  const [events, setEvents] = useContext(EventsContext);
+
   const filterEventByUser = (value) => {
     store.preFilter =
       value === 'all'
         ? null
         : ({ participants }) => participants.includes(value);
+
+    setEvents({
+      ...events,
+      ...{
+        count: events.count + 1,
+      },
+    });
   };
 
   return (
