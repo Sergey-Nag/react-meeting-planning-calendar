@@ -2,7 +2,7 @@
   "name": "calendar-app-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sergey-nag.github.io/react-meeting-planning-calendar/",
+  "homepage": ".",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
