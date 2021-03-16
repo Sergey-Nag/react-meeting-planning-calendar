@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { Card, Col, Row } from 'react-bootstrap';
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import CreateEventForm from './CreateEventForm';
 import ParticipantsSelects from './ParticipantsSelects';
 import UsersContext from '../../contexts/UsersContext';
@@ -31,7 +31,19 @@ export default function CreateEvent({ setTitle }) {
           </Col>
         </Row>
       </Card>
-      <Row className="pt-4" />
+      <Row className="pt-4">
+        <Col xs="6" />
+        <Col xs="3">
+          <Button variant="outline-secondary" className="w-100">
+            Cancel
+          </Button>
+        </Col>
+        <Col xs="3">
+          <Button variant="primary" className="w-100">
+            Submit
+          </Button>
+        </Col>
+      </Row>
     </FormContext.Provider>
   );
 }

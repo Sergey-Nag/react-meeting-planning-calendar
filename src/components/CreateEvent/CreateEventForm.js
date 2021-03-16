@@ -53,8 +53,6 @@ export default function CreateEventForm() {
       default:
         break;
     }
-
-    console.log(validate);
   };
 
   return (

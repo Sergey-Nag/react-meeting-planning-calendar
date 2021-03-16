@@ -18,7 +18,6 @@ export default function ConfirmAlert() {
   useEffect(() => {
     const backdrop = wrapper.current;
     const clickAsideHandler = (e) => {
-      console.log(e.target === backdrop);
       if (e.target.className === 'alert__wrapp') denyHandler();
     };
 

@@ -14,8 +14,6 @@ export default function PopUp() {
       if (alert.list.length === 0) setAlert({ show: false });
     }, 3000);
 
-    console.count('popup');
-
     return () => clearInterval(popupsInterval);
   }, [alert.list.length]);
 
