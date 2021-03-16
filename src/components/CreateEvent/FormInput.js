@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
+import Participant from './Participant';
 
 export default function FormInput({
   type,
@@ -58,6 +59,31 @@ export default function FormInput({
               </option>
             ))}
           </Form.Control>
+        </Col>
+      </Form.Group>
+    );
+  } else if (type === 'participants') {
+    return (
+      <Form.Group as={Row}>
+        <Form.Label column sm="3" htmlFor={type}>
+          {title}
+        </Form.Label>
+        <Col sm="9">
+          <div
+            className={`w-100 d-flex flex-wrap participants ${
+              isValid ? '' : 'is-invalid'
+            }`}
+          >
+            {inputArr.every(({ isChecked }) => !isChecked) && (
+              <h5 className="mt-2 text-warning">{placeholder}</h5>
+            )}
+            {inputArr.map(
+              ({ name, avatar, isChecked }) =>
+                isChecked && (
+                  <Participant key={name} name={name} avatar={avatar} />
+                ),
+            )}
+          </div>
         </Col>
       </Form.Group>
     );

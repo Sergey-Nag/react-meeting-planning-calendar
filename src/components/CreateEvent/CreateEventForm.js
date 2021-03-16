@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Form, Row, Col } from 'react-bootstrap';
+import React, { useContext } from 'react';
+import { Form } from 'react-bootstrap';
 import { DAY, TIME } from '../../helpers/helpers';
 import FormInput from './FormInput';
+import FormContext from '../../contexts/FormContext';
 
 function validateTextValue(value) {
   const res = {
@@ -26,25 +27,7 @@ function validateTextValue(value) {
 }
 
 export default function CreateEventForm() {
-  const [formData, setFormData] = useState({
-    title: {
-      value: '',
-      isValid: null,
-      tip: '',
-    },
-    day: {
-      value: '',
-      isValid: null,
-    },
-    time: {
-      value: '',
-      isValid: null,
-    },
-    participants: {
-      value: '',
-      isValid: null,
-    },
-  });
+  const [form, setForm] = useContext(FormContext);
 
   const validateValues = (name, value) => {
     if (name === 'title') return validateTextValue(value);
@@ -55,11 +38,14 @@ export default function CreateEventForm() {
   const handleChange = ({ target }) => {
     const { name, value } = target;
 
-    setFormData({
-      ...formData,
-      [name]: {
-        value,
-        ...validateValues(name, value),
+    setForm({
+      ...form,
+      inputs: {
+        ...form.inputs,
+        [name]: {
+          value,
+          ...validateValues(name, value),
+        },
       },
     });
   };
@@ -71,7 +57,7 @@ export default function CreateEventForm() {
         title="Name of the event"
         placeholder="Type the name of the event:"
         fieldName="title"
-        data={formData.title}
+        data={form.inputs.title}
         handleChange={handleChange}
       />
 
@@ -80,7 +66,7 @@ export default function CreateEventForm() {
         title="Day:"
         placeholder="Select weekday"
         fieldName="day"
-        data={formData.day}
+        data={form.inputs.day}
         handleChange={handleChange}
         inputArr={DAY.map((day) => [day.slice(0, 3), day])}
       />
@@ -90,21 +76,19 @@ export default function CreateEventForm() {
         title="Time:"
         placeholder="Select weekday"
         fieldName="time"
-        data={formData.time}
+        data={form.inputs.time}
         handleChange={handleChange}
         inputArr={TIME.map((time) => [time, time])}
       />
 
-      <Form.Group as={Row}>
-        <Form.Label column sm="3" htmlFor="participants">
-          Participants:
-        </Form.Label>
-        <Col sm="9">
-          <div className="w-100 d-flex flex-wrap participants">
-            <h5 className="mt-2 text-warning">Choose participants</h5>
-          </div>
-        </Col>
-      </Form.Group>
+      <FormInput
+        type="participants"
+        title="Participants:"
+        placeholder="Choose participants -->"
+        data={form.inputs.participants}
+        handleChange={handleChange}
+        inputArr={form.participants.map((el) => el.isChecked && el)}
+      />
     </Form>
   );
 }

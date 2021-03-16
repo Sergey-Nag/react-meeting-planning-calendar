@@ -2,6 +2,19 @@
   @extend %appearance;
 }
 
+.btn-close {
+  box-sizing: content-box;
+  width: 1em;
+  height: 1em;
+  padding: 0.25em 0.25em;
+  color: #000;
+  background: $backgrund-x-img;
+  background-position: center;
+  border: 0;
+  border-radius: 0.25rem;
+  opacity: 0.5;
+}
+
 .user {
   cursor: pointer;
   margin-bottom: 10px;
@@ -49,9 +62,15 @@
     font-weight: bold;
   }
 
-  &s.is-invalid h5 {
-    @extend .text-danger;
-    text-decoration: underline;
+  &s {
+    h5 {
+      line-height: 0.98em;
+    }
+
+    &.is-invalid h5 {
+      @extend .text-danger;
+      text-decoration: underline;
+    }
   }
 
   &__btn-remove {
@@ -78,3 +97,4 @@
     }
   }
 }
+

@@ -8,8 +8,26 @@ import FormContext from '../../contexts/FormContext';
 export default function CreateEvent({ setTitle }) {
   const [users] = useContext(UsersContext);
   const [form, setForm] = useState({
-    inputs: {},
-    participants: users.list.map((u) => ({ ...u, isCheked: false })),
+    inputs: {
+      title: {
+        value: '',
+        isValid: null,
+        tip: '',
+      },
+      day: {
+        value: '',
+        isValid: null,
+      },
+      time: {
+        value: '',
+        isValid: null,
+      },
+      participants: {
+        value: [],
+        isValid: true,
+      },
+    },
+    participants: users.list.map((u) => ({ ...u, isChecked: false })),
   });
 
   useEffect(() => {
@@ -39,8 +57,8 @@ export default function CreateEvent({ setTitle }) {
           </Button>
         </Col>
         <Col xs="3">
-          <Button variant="primary" className="w-100">
-            Submit
+          <Button variant="success" className="w-100">
+            Create Event
           </Button>
         </Col>
       </Row>
