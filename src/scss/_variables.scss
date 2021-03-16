@@ -1,4 +1,6 @@
-$card-color: lighten($info, 30%);
+@import '~bootstrap/scss/bootstrap';
+
+$card-color: lighten($info, 40%);
 $card-color--darken: darken($info, 30%);
 
 $bg-color: #fafafa;

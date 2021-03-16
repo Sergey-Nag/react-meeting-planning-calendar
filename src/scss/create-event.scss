@@ -1,0 +1,80 @@
+.form-input {
+  @extend %appearance;
+}
+
+.user {
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 10px;
+
+  &s__cover {
+    height: 320px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-right: 10px;
+
+    &::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(136, 136, 136, 0.3);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(136, 136, 136, 0.8);
+    }
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.participant {
+  @extend .d-flex, .justify-content-center, .flex-column, .align-items-center;
+  margin-right: -10px;
+  position: relative;
+
+  &__avatar {
+    @extend .rounded-circle;
+    background: #fff;
+    border: 3px solid $primary;
+    max-height: 65px;
+    width: 65px;
+  }
+
+  &__name {
+    font-size: 0.8em;
+    font-weight: bold;
+  }
+
+  &s.is-invalid h5 {
+    @extend .text-danger;
+    text-decoration: underline;
+  }
+
+  &__btn-remove {
+    background-color: #fff;
+    background-size: 90%;
+    border-radius: 50%;
+    height: 7px;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 7px;
+  }
+
+  &:hover {
+    z-index: 100;
+
+    .participant__btn-remove {
+      opacity: 0.5;
+
+      &:active {
+        opacity: 1;
+      }
+    }
+  }
+}

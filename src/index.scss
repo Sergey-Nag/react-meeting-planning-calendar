@@ -1,5 +1,4 @@
-@import '~bootstrap/scss/bootstrap';
-@import 'scss/_variables';
+@import './scss/variables';
 
 
 body {
@@ -7,4 +6,4 @@ body {
 }
 
 
-@import 'scss/calendar', 'scss/card';
+@import 'scss/calendar', 'scss/card', 'scss/alerts', 'scss/create-event';
