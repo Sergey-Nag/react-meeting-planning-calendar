@@ -45,6 +45,7 @@ export default function App() {
       list: data,
     });
   }, [events.count]);
+
   return (
     <UsersContext.Provider value={[users, setUsers]}>
       <EventsContext.Provider value={[events, setEvents]}>

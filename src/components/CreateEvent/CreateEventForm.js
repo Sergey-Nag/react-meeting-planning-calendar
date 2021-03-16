@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
 import { DAY, TIME } from '../../helpers/helpers';
+import FormInput from './FormInput';
 
 function validateTextValue(value) {
   const res = {
@@ -25,90 +26,75 @@ function validateTextValue(value) {
 }
 
 export default function CreateEventForm() {
-  const [validate, setValidate] = useState({
-    title: null,
-    day: null,
-    time: null,
-    participants: null,
+  const [formData, setFormData] = useState({
+    title: {
+      value: '',
+      isValid: null,
+      tip: '',
+    },
+    day: {
+      value: '',
+      isValid: null,
+    },
+    time: {
+      value: '',
+      isValid: null,
+    },
+    participants: {
+      value: '',
+      isValid: null,
+    },
   });
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    const { target } = e;
+  const validateValues = (name, value) => {
+    if (name === 'title') return validateTextValue(value);
+    else if (name === 'participants') return { isValid: null };
+    else return { isValid: value !== '0' };
+  };
 
-    switch (target.name) {
-      case 'title':
-        setValidate({
-          ...validate,
-          [target.name]: validateTextValue(target.value),
-        });
-        break;
-      case 'day':
-      case 'time':
-        setValidate({
-          ...validate,
-          [target.name]: target.value !== '0',
-        });
-        break;
-      default:
-        break;
-    }
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+
+    setFormData({
+      ...formData,
+      [name]: {
+        value,
+        ...validateValues(name, value),
+      },
+    });
   };
 
   return (
-    <Form onChange={handleChange}>
-      <Form.Group as={Row}>
-        <Form.Label column sm="3" htmlFor="title">
-          Name of the event:
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            placeholder="Type the name of the event"
-            id="title"
-            name="title"
-            isInvalid={validate.title !== null && !validate.title.isValid}
-          />
-          {validate.title !== null && (
-            <Form.Control.Feedback type="invalid">
-              {validate.title.tip}
-            </Form.Control.Feedback>
-          )}
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row}>
-        <Form.Label column sm="3" htmlFor="day">
-          Day:
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control
-            custom
-            as="select"
-            id="day"
-            name="day"
-            isInvalid={validate.day !== null && !validate.day}
-          >
-            <option value="0">Select weekday</option>
-            {DAY.map((day) => (
-              <option key={day} value={day.slice(0, 3)}>
-                {day}
-              </option>
-            ))}
-          </Form.Control>
-        </Col>
-      </Form.Group>
-      <Form.Group as={Row}>
-        <Form.Label column sm="3" htmlFor="time">
-          Time:
-        </Form.Label>
-        <Col sm="9">
-          <Form.Control as="select" custom id="time" name="time">
-            <option value="0">Select time</option>
-            {TIME.map((time) => (
-              <option key={time}>{time}</option>
-            ))}
-          </Form.Control>
-        </Col>
-      </Form.Group>
+    <Form>
+      <FormInput
+        type="text"
+        title="Name of the event"
+        placeholder="Type the name of the event:"
+        fieldName="title"
+        data={formData.title}
+        handleChange={handleChange}
+      />
+
+      <FormInput
+        type="select"
+        title="Day:"
+        placeholder="Select weekday"
+        fieldName="day"
+        data={formData.day}
+        handleChange={handleChange}
+        inputArr={DAY.map((day) => [day.slice(0, 3), day])}
+      />
+
+      <FormInput
+        type="select"
+        title="Time:"
+        placeholder="Select weekday"
+        fieldName="time"
+        data={formData.time}
+        handleChange={handleChange}
+        inputArr={TIME.map((time) => [time, time])}
+      />
+
       <Form.Group as={Row}>
         <Form.Label column sm="3" htmlFor="participants">
           Participants:
