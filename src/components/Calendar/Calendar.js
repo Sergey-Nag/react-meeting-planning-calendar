@@ -1,11 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import TableRow from './TableRow';
 import { DAY } from '../../helpers/helpers';
 import EventsContext from '../../contexts/EventsContext';
 
-export default function Calendar({ setAlert }) {
+export default function Calendar({ setTitle }) {
   const [events] = useContext(EventsContext);
+
+  useEffect(() => {
+    document.title = 'Calendar';
+    setTitle('Calendar');
+  }, []);
 
   return (
     <Table bordered className="calendar">
@@ -21,7 +26,7 @@ export default function Calendar({ setAlert }) {
       </thead>
       <tbody className="calendar__body">
         {events.list.map(({ time, days }) => (
-          <TableRow key={time} time={time} events={days} setAlert={setAlert} />
+          <TableRow key={time} time={time} events={days} />
         ))}
       </tbody>
     </Table>

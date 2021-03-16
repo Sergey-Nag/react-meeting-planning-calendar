@@ -25,6 +25,7 @@ export default function App() {
   const [users, setUsers] = useState({ list: [], authUser: null });
   const [events, setEvents] = useState({ list: [], count: 0 });
   const [alert, setAlert] = useState({ show: false });
+  const [title, setTitle] = useState('');
   const store = new NotifyResponse(storeInstance, createPopUp(alert, setAlert));
 
   useEffect(async () => {
@@ -55,7 +56,7 @@ export default function App() {
             <Container className="pt-5">
               <Row>
                 <Col>
-                  <h1>Calendar</h1>
+                  <h1>{title}</h1>
                 </Col>
                 <Col className="pt-1">
                   {users.authUser !== null && <Controls users={users.list} />}
@@ -64,13 +65,14 @@ export default function App() {
               <Row className="pt-2">
                 <Col>
                   <Route exact path="/">
-                    <Calendar />
+                    <Calendar setTitle={setTitle} />
                   </Route>
                   <Route exact path="/create-event">
                     {users.authUser !== null &&
-                      users.authUser.access.createEvents && <CreateEvent />}
-                    {users.authUser !== null && !users.authUser.access.createEvents && (
-                      <Redirect to="/" />
+                      users.authUser.access.createEvents && <CreateEvent setTitle={setTitle} />}
+                    {users.authUser !== null &&
+                      !users.authUser.access.createEvents && (
+                        <Redirect to="/" />
                     )}
                   </Route>
                 </Col>
