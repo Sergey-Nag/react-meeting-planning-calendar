@@ -1,4 +1,3 @@
-// import { showPopup } from './alerts';
 import Storage from './Storage';
 
 class NotifierQueryStorage extends Storage {
@@ -21,7 +20,7 @@ export default class NotifyResponse extends NotifierQueryStorage {
         this.showPopup('success', 'Users successfully loaded');
       } else throw new Error();
     } catch (e) {
-      this.showPopup('danger', 'Loading Users error</b>, please, try again');
+      this.showPopup('danger', 'Loading Users error, please, try again');
     }
 
     return users;
@@ -57,7 +56,7 @@ export default class NotifyResponse extends NotifierQueryStorage {
         );
       } else throw new Error();
     } catch (e) {
-      this.showPopup('danger', 'Create Event error</b>, please, try again');
+      this.showPopup('danger', 'Create Event error, please, try again');
       return false;
     }
 

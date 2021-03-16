@@ -67,7 +67,7 @@ export default function App() {
                   <Route exact path="/">
                     <Calendar setTitle={setTitle} />
                   </Route>
-                  <Route exact path="/create-event">
+                  <Route path="/create-event">
                     {users.authUser !== null &&
                       users.authUser.access.createEvents && <CreateEvent setTitle={setTitle} />}
                     {users.authUser !== null &&
