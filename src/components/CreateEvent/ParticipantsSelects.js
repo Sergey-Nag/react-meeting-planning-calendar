@@ -10,13 +10,14 @@ const setParticipants = (acc, item) => {
 export default function ParticipantsSelects() {
   const [form, setForm] = useContext(FormContext);
   useEffect(() => {
+    const newParticipantsArr = form.participants.reduce(setParticipants, []);
     setForm({
       ...form,
       inputs: {
         ...form.inputs,
         participants: {
-          ...form.inputs.participants,
-          value: form.participants.reduce(setParticipants, []),
+          isValid: newParticipantsArr.length > 0,
+          value: newParticipantsArr,
         },
       },
     });

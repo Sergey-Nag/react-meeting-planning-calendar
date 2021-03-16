@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { Form, Card, Col, Row } from 'react-bootstrap';
 import { AVATARS } from '../../helpers/helpers';
 
@@ -8,7 +8,6 @@ export default function ParticipantCheck({
   form,
   setForm,
 }) {
-  // const [check, setCheck] = useState(isChecked);
   const setCheck = useCallback((val) => {
     setForm({
       ...form,

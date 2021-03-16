@@ -31,7 +31,7 @@ export default function CreateEventForm() {
 
   const validateValues = (name, value) => {
     if (name === 'title') return validateTextValue(value);
-    else if (name === 'participants') return { isValid: null };
+    else if (name === 'participants') return { isValid: value.lenght > 0 };
     else return { isValid: value !== '0' };
   };
 
@@ -59,6 +59,7 @@ export default function CreateEventForm() {
         fieldName="title"
         data={form.inputs.title}
         handleChange={handleChange}
+        validation={form.validation}
       />
 
       <FormInput
@@ -69,6 +70,7 @@ export default function CreateEventForm() {
         data={form.inputs.day}
         handleChange={handleChange}
         inputArr={DAY.map((day) => [day.slice(0, 3), day])}
+        validation={form.validation}
       />
 
       <FormInput
@@ -79,6 +81,7 @@ export default function CreateEventForm() {
         data={form.inputs.time}
         handleChange={handleChange}
         inputArr={TIME.map((time) => [time, time])}
+        validation={form.validation}
       />
 
       <FormInput
@@ -88,6 +91,7 @@ export default function CreateEventForm() {
         data={form.inputs.participants}
         handleChange={handleChange}
         inputArr={form.participants.map((el) => el.isChecked && el)}
+        validation={form.validation}
       />
     </Form>
   );

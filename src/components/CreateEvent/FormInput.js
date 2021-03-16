@@ -10,6 +10,7 @@ export default function FormInput({
   data,
   inputArr,
   handleChange,
+  validation,
 }) {
   const { value, isValid, tip } = data;
 
@@ -26,13 +27,15 @@ export default function FormInput({
             name={fieldName}
             value={value}
             onChange={handleChange}
-            isInvalid={value !== '' && !isValid}
+            isInvalid={validation && !isValid}
           />
 
-          <Form.Control.Feedback type="invalid">
-            {!isValid &&
-              tip.split('\n').map((msg) => <div key={msg}>{msg}</div>)}
-          </Form.Control.Feedback>
+          {validation && (
+            <Form.Control.Feedback type="invalid">
+              {!isValid &&
+                tip.split('\n').map((msg) => <div key={msg}>{msg}</div>)}
+            </Form.Control.Feedback>
+          )}
         </Col>
       </Form.Group>
     );
@@ -50,7 +53,7 @@ export default function FormInput({
             name={fieldName}
             value={value}
             onChange={handleChange}
-            isInvalid={value !== '' && !isValid}
+            isInvalid={validation && !isValid}
           >
             <option value="0">{placeholder}</option>
             {inputArr.map(([val, item]) => (
@@ -71,7 +74,7 @@ export default function FormInput({
         <Col sm="9">
           <div
             className={`w-100 d-flex flex-wrap participants ${
-              isValid ? '' : 'is-invalid'
+              validation && !isValid ? 'is-invalid' : ''
             }`}
           >
             {inputArr.every(({ isChecked }) => !isChecked) && (
