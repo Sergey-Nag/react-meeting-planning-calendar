@@ -3,7 +3,7 @@ import ParticipantCheck from './ParticipantCheck';
 import FormContext from '../../contexts/FormContext';
 
 export default function ParticipantsSelects() {
-  const [form, setForm] = useContext(FormContext);
+  const [form] = useContext(FormContext);
 
   return (
     <div className="users__cover">
