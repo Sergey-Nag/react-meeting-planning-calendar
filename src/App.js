@@ -49,7 +49,7 @@ export default function App() {
     <UsersContext.Provider value={[users, setUsers]}>
       <EventsContext.Provider value={[events, setEvents]}>
         <AlertContext.Provider value={[alert, setAlert]}>
-          <Router>
+          <Router basename={process.env.PUBLIC_URL}>
             {alert.show && alert.type === 'popup' && <PopUp />}
             {alert.show && alert.type === 'confirm' && <ConfirmAlert />}
             {users.authUser === null && <AuthorizeAlert />}
