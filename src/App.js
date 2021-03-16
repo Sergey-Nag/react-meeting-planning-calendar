@@ -52,7 +52,7 @@ export default function App() {
           {alert.show && alert.type === 'popup' && <PopUp />}
           {alert.show && alert.type === 'confirm' && <ConfirmAlert />}
           {users.authUser === null && <AuthorizeAlert />}
-          <Router>
+          <Router basename={process.env.PUBLIC_URL}>
             <Container className="pt-5">
               <Row>
                 <Col>
