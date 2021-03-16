@@ -10,6 +10,7 @@ export default function ConfirmAlert() {
     setAlert({ show: false });
     if (alert.onDeny) alert.onDeny();
   };
+
   const confirmHandler = () => {
     setAlert({ show: false });
     if (alert.onConfirm) alert.onConfirm();
