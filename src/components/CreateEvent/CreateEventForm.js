@@ -1,5 +1,6 @@
 import React from 'react';
 import { Form, Row, Col } from 'react-bootstrap';
+import { DAY, TIME } from '../../helpers/helpers';
 
 export default function CreateEventForm() {
   return (
@@ -18,11 +19,12 @@ export default function CreateEventForm() {
         </Form.Label>
         <Col sm="9">
           <Form.Control as="select" custom>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option value="0">Select weekday</option>
+            {DAY.map((day) => (
+              <option key={day} value={day.slice(0, 3)}>
+                {day}
+              </option>
+            ))}
           </Form.Control>
         </Col>
       </Form.Group>
@@ -32,12 +34,21 @@ export default function CreateEventForm() {
         </Form.Label>
         <Col sm="9">
           <Form.Control as="select" custom>
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option value="0">Select time</option>
+            {TIME.map((time) => (
+              <option key={time}>{time}</option>
+            ))}
           </Form.Control>
+        </Col>
+      </Form.Group>
+      <Form.Group as={Row}>
+        <Form.Label column sm="3">
+          Participants:
+        </Form.Label>
+        <Col sm="9">
+          <div className="w-100 d-flex flex-wrap participants">
+            <h5 className="mt-2 text-warning">Choose participants</h5>
+          </div>
         </Col>
       </Form.Group>
     </Form>

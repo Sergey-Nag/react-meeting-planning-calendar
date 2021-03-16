@@ -14,7 +14,7 @@ export default function Calendar({ setAlert }) {
           <th>Time</th>
           {DAY.map((day) => (
             <th key={day} className="calendar__col">
-              {day}
+              {day.slice(0, 3)}
             </th>
           ))}
         </tr>

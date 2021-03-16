@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Controls from './components/Controls/Controls';
 import Calendar from './components/Calendar/Calendar';
@@ -58,9 +58,7 @@ export default function App() {
                   <h1>Calendar</h1>
                 </Col>
                 <Col className="pt-1">
-                  {users.authUser !== null && (
-                    <Controls users={users.list} />
-                  )}
+                  {users.authUser !== null && <Controls users={users.list} />}
                 </Col>
               </Row>
               <Row className="pt-2">
@@ -69,7 +67,11 @@ export default function App() {
                     <Calendar />
                   </Route>
                   <Route exact path="/create-event">
-                    <CreateEvent />
+                    {users.authUser !== null &&
+                      users.authUser.access.createEvents && <CreateEvent />}
+                    {users.authUser !== null && !users.authUser.access.createEvents && (
+                      <Redirect to="/" />
+                    )}
                   </Route>
                 </Col>
               </Row>

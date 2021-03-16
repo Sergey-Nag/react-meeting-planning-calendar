@@ -1,10 +1,25 @@
 import uniqid from 'uniqid';
+import boy1 from '../img/boy_1.png';
+import boy2 from '../img/boy_2.png';
+import boy3 from '../img/boy_3.png';
+import girl1 from '../img/girl_1.png';
+import girl2 from '../img/girl_2.png';
+import girl3 from '../img/girl_3.png';
+
+const AVATARS = {
+  'boy_1.png': boy1,
+  'boy_2.png': boy2,
+  'boy_3.png': boy3,
+  'girl_1.png': girl1,
+  'girl_2.png': girl2,
+  'girl_3.png': girl3,
+};
 
 const TIME = [...Array(9)].map((el, i) => `1${i}:00`);
-const DAY = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+const DAY = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
 const DATES = TIME.reduce((arr, time) => {
-  const obj = { time, days: DAY.map((day) => ({ day, event: null })) };
+  const obj = { time, days: DAY.map((day) => ({ day: day.slice(0, 3), event: null })) };
 
   arr.push(obj);
 
@@ -55,4 +70,4 @@ function createPopUp(alert, setAlert) {
   };
 }
 
-export { DAY, TIME, DATES, setEventsIntoDays, createPopUp };
+export { DAY, TIME, DATES, setEventsIntoDays, createPopUp, AVATARS };
