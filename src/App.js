@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import Controls from './components/Controls/Controls';
 import Calendar from './components/Calendar/Calendar';
+import PageNotFound from './components/PageNotFound/PageNotFound';
 import CreateEvent from './components/CreateEvent/CreateEvent';
 import AuthorizeAlert from './components/Alerts/AuthorizeAlert';
 import ConfirmAlert from './components/Alerts/ConfirmAlert';
@@ -44,15 +45,14 @@ export default function App() {
       list: data,
     });
   }, [events.count]);
-
   return (
     <UsersContext.Provider value={[users, setUsers]}>
       <EventsContext.Provider value={[events, setEvents]}>
         <AlertContext.Provider value={[alert, setAlert]}>
-          <Router basename={process.env.PUBLIC_URL}>
-            {alert.show && alert.type === 'popup' && <PopUp />}
-            {alert.show && alert.type === 'confirm' && <ConfirmAlert />}
-            {users.authUser === null && <AuthorizeAlert />}
+          {alert.show && alert.type === 'popup' && <PopUp />}
+          {alert.show && alert.type === 'confirm' && <ConfirmAlert />}
+          {users.authUser === null && <AuthorizeAlert />}
+          <Router>
             <Container className="pt-5">
               <Row>
                 <Col>
@@ -64,17 +64,22 @@ export default function App() {
               </Row>
               <Row className="pt-2">
                 <Col>
-                  <Route exact path="/">
-                    <Calendar setTitle={setTitle} />
-                  </Route>
-                  <Route path="/create-event">
-                    {users.authUser !== null &&
-                      users.authUser.access.createEvents && <CreateEvent setTitle={setTitle} />}
-                    {users.authUser !== null &&
-                      !users.authUser.access.createEvents && (
-                        <Redirect to="/" />
-                    )}
-                  </Route>
+                  <Switch>
+                    <Route exact path="/">
+                      <Calendar setTitle={setTitle} />
+                    </Route>
+                    <Route path="/create-event">
+                      {users.authUser !== null &&
+                        users.authUser.access.createEvents && <CreateEvent setTitle={setTitle} />}
+                      {users.authUser !== null &&
+                        !users.authUser.access.createEvents && (
+                          <Redirect to="/" />
+                      )}
+                    </Route>
+                    <Route path="*">
+                      <PageNotFound setTitle={setTitle} />
+                    </Route>
+                  </Switch>
                 </Col>
               </Row>
             </Container>
