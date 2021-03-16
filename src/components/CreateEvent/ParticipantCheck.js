@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Card, Col, Row } from 'react-bootstrap';
 import { AVATARS } from '../../helpers/helpers';
 
-export default function ParticipantCheck({ user: { name, avatar }, form, setForm }) {
-  const [check, setCheck] = useState(false);
-
-  useEffect(() => {
+export default function ParticipantCheck({
+  user: { name, avatar },
+  check,
+  form,
+  setForm,
+}) {
+  // const [check, setCheck] = useState(isChecked);
+  const setCheck = useCallback((val) => {
     setForm({
       ...form,
       participants: form.participants.map((p) => (
-        p.name === name ? { ...p, isChecked: check } : p
+        p.name === name ? { ...p, isChecked: val } : p
       )),
     });
-  }, [check]);
+  });
 
   return (
     <Card
