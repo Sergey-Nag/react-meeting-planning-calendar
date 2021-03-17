@@ -1,40 +1,34 @@
 import React, { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AlertContext from '../../contexts/AlertContext';
-import UsersContext from '../../contexts/UsersContext';
+import AuthContext from '../../contexts/AuthContext';
 import Storage from '../../services/Storage';
 import NotifyResponse from '../../services/SrotageDecorator';
 import { createPopUp } from '../../helpers/helpers';
-import EventsContext from '../../contexts/EventsContext';
+import loadEvents from '../../reduxStore/actions/eventsActions';
 
 const storeInstance = Storage.getInstance();
 
 export default function EventCard({ id, title }) {
-  const [events, setEvents] = useContext(EventsContext);
+  // const events = useSelector((state) => state.events);
+  const dispatch = useDispatch();
+  const [{ access }] = useContext(AuthContext);
+  // const [alert, setAlert] = useContext(AlertContext);
+  // const store = new NotifyResponse(storeInstance, createPopUp(alert, setAlert));
 
-  const [
-    {
-      authUser: { access },
-    },
-  ] = useContext(UsersContext);
-  const [alert, setAlert] = useContext(AlertContext);
-  const store = new NotifyResponse(storeInstance, createPopUp(alert, setAlert));
-
-  const showDeleteConfirm = () => {
-    setAlert({
-      show: true,
-      type: 'confirm',
-      text: `Are you sure you want to delete "${title}" event?`,
-      onConfirm: async () => {
-        const isRemoved = await store.removeEvent(id);
-        if (isRemoved) {
-          setEvents({
-            ...events,
-            count: events.count + 1,
-          });
-        }
-      },
-    });
-  };
+  const showDeleteConfirm = () => {};
+  //   setAlert({
+  //     show: true,
+  //     type: 'confirm',
+  //     text: `Are you sure you want to delete "${title}" event?`,
+  //     onConfirm: async () => {
+  //       const isRemoved = await store.removeEvent(id);
+  //       if (isRemoved) {
+  //         dispatch(loadEvents());
+  //       }
+  //     },
+  //   });
+  // };
 
   return (
     <div

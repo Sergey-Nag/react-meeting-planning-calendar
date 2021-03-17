@@ -1,17 +1,17 @@
-import Storage from '../services/Storage';
-import createUser from '../users/createUser';
+import Storage from '../../services/Storage';
+import createUser from '../../users/createUser';
+
+import {
+  SET_USERS,
+  SET_USERS_ERROR,
+  SET_USERS_LOADING,
+} from '../types/usersTypes';
 
 const store = Storage.getInstance();
 
 const mapUsers = (users) => users.map((user) => createUser(user));
 
-import {
-  SET_USERS,
-  SET_USERS_ERROR,
-  SET_USERS_LOADING
-} from './actionsTypes';
-
-export const loadUsers = () => async (dispatch) => {
+const loadUsers = () => async (dispatch) => {
   dispatch({
     type: SET_USERS_LOADING,
     payload: true,
@@ -36,11 +36,6 @@ export const loadUsers = () => async (dispatch) => {
       payload: false,
     });
   }
-}
+};
 
-export const authorizeUser = (user) => {
-  return {
-    type: TYPES.AUTH_USER,
-    payload: user,
-  };
-}
+export default loadUsers;

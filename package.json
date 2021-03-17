@@ -23,7 +23,36 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "eslint": "eslint ./src/**/*.js",
+    "eslint:fix": "eslint ./src/**/*.js --fix"
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "react-app",
+      "react-app/jest"
+    ],
+    "rules": {
+      "linebreak-style": 0,
+      "no-else-return": 0,
+      "no-console": 0,
+      "react/jsx-filename-extension": 0,
+      "eol-last": [
+        "error",
+        "always"
+      ],
+      "jsx-a11y/control-has-associated-label": 0,
+      "react/prop-types": 0,
+      "react-hooks/exhaustive-deps": 0,
+      "implicit-arrow-linebreak": 0,
+      "operator-linebreak": 0,
+      "max-classes-per-file": [
+        "error",
+        2
+      ],
+      "object-curly-newline": 0
+    }
   },
   "browserslist": {
     "production": [

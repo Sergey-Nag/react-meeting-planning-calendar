@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import UsersContext from '../../contexts/UsersContext';
+import AuthContext from '../../contexts/AuthContext';
 import EventCard from '../EventCard/EventCard';
 
 export default function TableRow({ time, events }) {
-  const [{ authUser }] = useContext(UsersContext);
+  const [authUser] = useContext(AuthContext);
 
   return (
     <tr>

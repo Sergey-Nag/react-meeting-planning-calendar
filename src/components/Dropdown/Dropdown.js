@@ -1,23 +1,22 @@
 import React, { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form } from 'react-bootstrap';
-import Storage from '../../services/Storage';
-import EventsContext from '../../contexts/EventsContext';
-
-const store = Storage.getInstance();
+import loadEvents from '../../reduxStore/actions/eventsActions';
+import { FILTER_EVENTS } from '../../reduxStore/types/eventsTypes';
 
 export default function Dropdown(users) {
-  const [events, setEvents] = useContext(EventsContext);
+  // const events = useSelector((state) => state.events);
+  const dispatch = useDispatch();
 
   const filterEventByUser = (value) => {
-    store.preFilter =
-      value === 'all'
-        ? null
-        : ({ participants }) => participants.includes(value);
-
-    setEvents({
-      ...events,
-      count: events.count + 1,
-    });
+    if (value === 'all') {
+      dispatch(loadEvents());
+    } else {
+      dispatch({
+        type: FILTER_EVENTS,
+        payload: ({ data }) => data.participants.includes(value),
+      });
+    }
   };
 
   return (

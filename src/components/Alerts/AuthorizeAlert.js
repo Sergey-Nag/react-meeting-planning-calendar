@@ -1,12 +1,11 @@
 import React, { useContext, useRef } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import AuthContext from '../../contexts/AuthContext';
 import Admin from '../../users/Admin';
-import { useSelector, useDispatch } from 'react-redux';
-
 
 export default function AuthorizeAlert() {
-  const [authUser, setAuthUser] = useContext(AuthContext);
+  const [, setAuthUser] = useContext(AuthContext);
   const users = useSelector((state) => state.users);
   const selectUsers = useRef(null);
 
