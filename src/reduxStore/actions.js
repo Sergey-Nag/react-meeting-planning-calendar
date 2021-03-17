@@ -1,6 +1,9 @@
 import Storage from '../services/Storage';
+import createUser from '../users/createUser';
 
 const store = Storage.getInstance();
+
+const mapUsers = (users) => users.map((user) => createUser(user));
 
 import {
   SET_USERS,
@@ -8,7 +11,7 @@ import {
   SET_USERS_LOADING
 } from './actionsTypes';
 
-export const setUsers = () => async (dispatch) => {
+export const loadUsers = () => async (dispatch) => {
   dispatch({
     type: SET_USERS_LOADING,
     payload: true,
@@ -18,10 +21,9 @@ export const setUsers = () => async (dispatch) => {
     const req = await store.getAllUsers();
 
     if (!req) throw new Error();
-
     dispatch({
       type: SET_USERS,
-      payload: await req,
+      payload: mapUsers(await req),
     });
   } catch (e) {
     dispatch({
@@ -34,4 +36,11 @@ export const setUsers = () => async (dispatch) => {
       payload: false,
     });
   }
+}
+
+export const authorizeUser = (user) => {
+  return {
+    type: TYPES.AUTH_USER,
+    payload: user,
+  };
 }

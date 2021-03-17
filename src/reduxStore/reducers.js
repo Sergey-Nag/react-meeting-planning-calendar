@@ -11,8 +11,6 @@ const initialState = {
 };
 
 export default function rootReducer(state = initialState, action) {
-  console.log(action.type);
-
   switch (action.type) {
     case TYPES.SET_USERS:
       return {
@@ -41,6 +39,14 @@ export default function rootReducer(state = initialState, action) {
         },
       };
       break;
+    case TYPES.AUTH_USER:
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          authUser: action.payload
+        }
+      }
     default:
       return state;
   }
