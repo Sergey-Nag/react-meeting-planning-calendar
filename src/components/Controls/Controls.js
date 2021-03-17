@@ -1,27 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { Switch, Link, Route } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import Dropdown from '../Dropdown/Dropdown';
 import AuthContext from '../../contexts/AuthContext';
-import { useSelector } from 'react-redux';
 
 export default function Controls() {
-  const { access, list } = useSelector((state) => state.users);
-  const [loaded, setLoaded] = useState(false);
+  const [{access}] = useContext(AuthContext);
 
-  useEffect(()=>{
-    console.log(access);
-    setLoaded(true);
-  }, [list.length > 0]);
-  
   return (
     <Row>
       <Switch>
         <Route exact path="/">
           <Col>
-            {loaded && <Dropdown users={list} />}
+            <Dropdown users={users.list} />
           </Col>
-          {loaded && access.createEvents && (
+          {access.createEvents && (
             <Col>
               <Link
                 to="/create-event"

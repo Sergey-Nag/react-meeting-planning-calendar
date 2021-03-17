@@ -34,7 +34,7 @@ export default function App() {
   const [title, setTitle] = useState('');
   const dispatch = useDispatch();
   const [list, setList] = useState([]);
-
+  const [authUser, setAuthUser] = useState(null);
   //  const [events, setEvents] = useState({ list: [], count: 0 });
   //  const [alert, setAlert] = useState({ show: false });
   //  const db = new NotifyResponse(storageInstance, createPopUp(alert, setAlert));
@@ -57,10 +57,10 @@ export default function App() {
   //  }, [events.count]);
 
   return (
-    <>
+    <AuthContext.Provider value={[authUser, setAuthUser]}>
       {alert.show && alert.type === 'popup' && <PopUp />}
       {alert.show && alert.type === 'confirm' && <ConfirmAlert />}
-      {users.authUser === null && !users.isLoading && <AuthorizeAlert />}
+      {authUser === null && !users.isLoading && <AuthorizeAlert />}
       <Router basename={process.env.PUBLIC_URL} >
         <Container className="pt-5">
           <Row>
@@ -78,6 +78,6 @@ export default function App() {
           </Row>
         </Container>
       </Router>
-    </>
+    </AuthContext.Provider>
   );
 }

@@ -1,27 +1,18 @@
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
-//import UsersContext from '../../contexts/UsersContext';
+import AuthContext from '../../contexts/AuthContext';
 import Admin from '../../users/Admin';
 import { useSelector, useDispatch } from 'react-redux';
-import { authorizeUser } from '../../reduxStore/actions';
 
 
 export default function AuthorizeAlert() {
+  const [authUser, setAuthUser] = useContext(AuthContext);
   const users = useSelector((state) => state.users);
-  const dispatch = useDispatch();
   const selectUsers = useRef(null);
 
   const authorizeUser = () => {
     const chosenUser = selectUsers.current.value;
-    if (users.authUser !== null) return;
-  
-    const auth = users.list.find(({ name }) => name === chosenUser);
-    dispatch({
-      type: 'AUTH_USER',
-      payload: auth,
-    });
-    
-    console.log(users);
+    setAuthUser(users.list.find(({ name }) => name === chosenUser));
   };
 
   return (
