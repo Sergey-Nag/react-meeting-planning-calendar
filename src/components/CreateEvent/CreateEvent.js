@@ -1,15 +1,11 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import CreateEventForm from './CreateEventForm';
 import ParticipantsSelects from './ParticipantsSelects';
-import UsersContext from '../../contexts/UsersContext';
 import FormContext from '../../contexts/FormContext';
 import Storage from '../../services/Storage';
-import NotifyResponse from '../../services/SrotageDecorator';
-import { createPopUp } from '../../helpers/helpers';
-import AlertContext from '../../contexts/AlertContext';
-import EventsContext from '../../contexts/EventsContext';
 
 const storeInstance = Storage.getInstance();
 
@@ -20,10 +16,8 @@ const prepareData = (data) =>
   }, {});
 
 export default function CreateEvent({ setTitle }) {
-  const [alert, setAlert] = useContext(AlertContext);
-  const [users] = useContext(UsersContext);
-  const [events, setEvents] = useContext(EventsContext);
-  const store = new NotifyResponse(storeInstance, createPopUp(alert, setAlert));
+  const users = useSelector((state) => state.users);
+  // const events = useSelector((state) => state.events);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const history = useHistory();
   const [form, setForm] = useState({
@@ -56,8 +50,8 @@ export default function CreateEvent({ setTitle }) {
   }, []);
 
   const createEvent = async (data) => {
-    const createReq = await store.setEvent(data);
-    console.log(createReq);
+    // const createReq = await store.setEvent(data);
+    // console.log(createReq);
   };
 
   const handleCreateEvent = () => {
@@ -69,10 +63,14 @@ export default function CreateEvent({ setTitle }) {
     if (isAnyInvalid) return;
 
     const { day, time } = form.inputs;
-    const isDateTimeBooked = storeInstance.getEventByDayTime(day.value, time.value);
+    const isDateTimeBooked = storeInstance.getEventByDayTime(
+      day.value,
+      time.value,
+    );
 
     if (isDateTimeBooked) {
-      createPopUp(alert, setAlert)('danger', 'Failed to create an event. Time slot at Wed 10:00 is already booked');
+      // createPopUp(alert, setAlert)('danger',
+      // 'Failed to create an event. Time slot at Wed 10:00 is already booked');
       return;
     }
 
@@ -81,10 +79,10 @@ export default function CreateEvent({ setTitle }) {
     setButtonDisabled(true);
     setTimeout(() => {
       history.push('/');
-      setEvents({
-        ...events,
-        count: events.count + 1,
-      });
+      // setEvents({
+      //   ...events,
+      //   count: events.count + 1,
+      // });
     }, 3000);
   };
 

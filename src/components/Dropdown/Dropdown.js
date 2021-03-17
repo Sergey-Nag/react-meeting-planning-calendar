@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import loadEvents from '../../reduxStore/actions/eventsActions';
 import { FILTER_EVENTS } from '../../reduxStore/types/eventsTypes';
 
 export default function Dropdown(users) {
-  // const events = useSelector((state) => state.events);
   const dispatch = useDispatch();
 
   const filterEventByUser = (value) => {

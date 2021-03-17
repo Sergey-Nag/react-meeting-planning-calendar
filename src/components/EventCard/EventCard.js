@@ -1,20 +1,13 @@
 import React, { useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import AlertContext from '../../contexts/AlertContext';
+// import { useDispatch } from 'react-redux';
 import AuthContext from '../../contexts/AuthContext';
-import Storage from '../../services/Storage';
-import NotifyResponse from '../../services/SrotageDecorator';
-import { createPopUp } from '../../helpers/helpers';
-import loadEvents from '../../reduxStore/actions/eventsActions';
+// import Storage from '../../services/Storage';
 
-const storeInstance = Storage.getInstance();
+// const storeInstance = Storage.getInstance();
 
 export default function EventCard({ id, title }) {
-  // const events = useSelector((state) => state.events);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [{ access }] = useContext(AuthContext);
-  // const [alert, setAlert] = useContext(AlertContext);
-  // const store = new NotifyResponse(storeInstance, createPopUp(alert, setAlert));
 
   const showDeleteConfirm = () => {};
   //   setAlert({
