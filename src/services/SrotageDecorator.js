@@ -54,7 +54,7 @@ export default class NotifyResponse extends NotifierQueryStorage {
       const datesQuery = await this.storage.getEventByDayTime(day, time);
       return datesQuery;
     } catch (e) {
-      console.log(e);
+      console.error(e);
       showPopup('danger', 'Check Event error, please, try again');
     }
     return 'error';

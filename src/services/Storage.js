@@ -20,7 +20,6 @@ class Storage {
 
   constructor() {
     this.events = null;
-    this.preFilter = null;
   }
 
   async query(method, path, body = null) {
@@ -65,11 +64,6 @@ class Storage {
     return formatted;
   }
 
-  async getPreFilteredEvents() {
-    if (!this.preFilter) return this.getAllEvents();
-    return this.events.filter(({ data }) => this.preFilter(data));
-  }
-
   async getEventByDayTime(day, time) {
     if (!this.events) this.events = await this.getAllEvents();
 
@@ -91,10 +85,6 @@ class Storage {
       JSON.stringify(data),
     );
     return reqUpdate.ok;
-  }
-
-  filterEvents(callback) {
-    return this.getAllEvents().filter((el) => callback(el));
   }
 
   async removeEvent(eventId) {

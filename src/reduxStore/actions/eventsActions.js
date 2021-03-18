@@ -1,7 +1,7 @@
 import Storage from '../../services/Storage';
 import NotifyResponse from '../../services/SrotageDecorator';
 
-import { UPDATE_EVENTS, GET_EVENTS } from '../types/eventsTypes';
+import { UPDATE_EVENTS, GET_EVENTS, FILTER_EVENTS } from '../types/eventsTypes';
 
 const storageInstance = Storage.getInstance();
 const db = new NotifyResponse(storageInstance);
@@ -36,3 +36,8 @@ export const createNewEvent = (data) => async (dispatch) => {
     type: UPDATE_EVENTS,
   });
 };
+
+export const filterByParticipants = (name) => ({
+  type: FILTER_EVENTS,
+  payload: ({ data }) => data.participants.includes(name),
+});

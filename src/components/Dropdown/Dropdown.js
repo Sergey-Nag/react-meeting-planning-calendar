@@ -1,36 +1,40 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
-import { loadEvents } from '../../reduxStore/actions/eventsActions';
-import { FILTER_EVENTS } from '../../reduxStore/types/eventsTypes';
+import { loadEvents, filterByParticipants } from '../../reduxStore/actions/eventsActions';
+import AuthContext from '../../contexts/AuthContext';
+import { showPopup } from '../../reduxStore/actions/alertActions';
 
-export default function Dropdown(users) {
+export default function Dropdown({ users }) {
+  const [authUser] = useContext(AuthContext);
   const dispatch = useDispatch();
 
   const filterEventByUser = (value) => {
     if (value === 'all') {
       dispatch(loadEvents());
     } else {
-      dispatch({
-        type: FILTER_EVENTS,
-        payload: ({ data }) => data.participants.includes(value),
-      });
+      dispatch(filterByParticipants(value));
     }
   };
 
   return (
     <Form.Control
       as="select"
+      disabled={!authUser.access.filterEvents}
       custom
       defaultValue="all"
       onChange={(e) => filterEventByUser(e.target.value)}
     >
-      <option value="all">All members</option>
-      {users.users.map(({ name }) => (
-        <option key={`user-${name}`} value={name}>
-          {name}
-        </option>
-      ))}
+      {authUser.access.filterEvents && (
+        <>
+          <option value="all">All members</option>
+          {users.map(({ name }) => (
+            <option key={name}>{name}</option>
+          ))}
+        </>
+      )}
+
+      {!authUser.access.filterEvents && <option>{authUser.name}</option>}
     </Form.Control>
   );
 }

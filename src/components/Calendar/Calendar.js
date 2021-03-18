@@ -1,11 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import TableRow from './TableRow';
 import { DAY, setEventsIntoDays } from '../../helpers/helpers';
-import { loadEvents } from '../../reduxStore/actions/eventsActions';
+import {
+  filterByParticipants,
+  loadEvents,
+} from '../../reduxStore/actions/eventsActions';
+import { showPopup } from '../../reduxStore/actions/alertActions';
+import AuthContext from '../../contexts/AuthContext';
 
 export default function Calendar({ setTitle }) {
+  const [authUser] = useContext(AuthContext);
   const events = useSelector((state) => state.events);
   const dispatch = useDispatch();
 
@@ -17,6 +23,13 @@ export default function Calendar({ setTitle }) {
     document.title = 'Calendar';
     setTitle('Calendar');
   }, []);
+
+  useEffect(() => {
+    if (authUser && !authUser.access.filterEvents) {
+      dispatch(filterByParticipants(authUser.name));
+      dispatch(showPopup('success', `Displayed events for ${authUser.name}`));
+    }
+  }, [authUser !== null]);
 
   return (
     <Table bordered className="calendar">
