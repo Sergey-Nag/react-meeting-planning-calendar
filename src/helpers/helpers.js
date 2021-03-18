@@ -5,6 +5,15 @@ import boy3 from '../img/boy_3.png';
 import girl1 from '../img/girl_1.png';
 import girl2 from '../img/girl_2.png';
 import girl3 from '../img/girl_3.png';
+import store from '../reduxStore/store';
+import { SHOW_POPUP } from '../reduxStore/types/alertsTypes';
+
+const showPopup = (theme, text) => {
+  store.dispatch({
+    type: SHOW_POPUP,
+    payload: { theme, text },
+  });
+};
 
 const AVATARS = {
   'boy_1.png': boy1,
@@ -70,4 +79,12 @@ function createPopUp(alert, setAlert) {
   };
 }
 
-export { DAY, TIME, DATES, setEventsIntoDays, createPopUp, AVATARS };
+export {
+  DAY,
+  TIME,
+  DATES,
+  setEventsIntoDays,
+  createPopUp,
+  AVATARS,
+  showPopup,
+};

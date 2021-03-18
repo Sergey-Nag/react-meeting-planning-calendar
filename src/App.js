@@ -19,6 +19,7 @@ import loadUsers from './reduxStore/actions/usersActions';
 
 export default function App() {
   const users = useSelector((state) => state.users);
+  const alert = useSelector((state) => state.alerts);
   const [title, setTitle] = useState('');
   const dispatch = useDispatch();
   const [authUser, setAuthUser] = useState(null);
@@ -27,20 +28,11 @@ export default function App() {
     dispatch(loadUsers());
   }, []);
 
-  //  useEffect(async () => {
-  //    const req = await db.getPreFilteredEvents();
-  //    const data = setEventsIntoDays(req);
-  //    setEvents({
-  //      ...events,
-  //      list: data,
-  //    });
-  //  }, [events.count]);
-
   return (
     <AuthContext.Provider value={[authUser, setAuthUser]}>
-      {alert.show && alert.type === 'popup' && <PopUp />}
-      {alert.show && alert.type === 'confirm' && <ConfirmAlert />}
-      {authUser === null && !users.isLoading && <AuthorizeAlert />}
+      {alert.isShow && alert.type === 'popup' && <PopUp />}
+      {alert.isShow && alert.type === 'confirm' && <ConfirmAlert />}
+      {authUser === null && <AuthorizeAlert />}
       <Router basename={process.env.PUBLIC_URL}>
         <Container className="pt-5">
           <Row>
@@ -58,12 +50,12 @@ export default function App() {
                   <Calendar setTitle={setTitle} />
                 </Route>
                 <Route path="/create-event">
-                  {authUser !== null &&
-                    authUser.access.createEvents && (
-                      <CreateEvent setTitle={setTitle} />
+                  {authUser !== null && authUser.access.createEvents && (
+                    <CreateEvent setTitle={setTitle} />
                   )}
-                  {authUser !== null &&
-                    !authUser.access.createEvents && <Redirect to="/" />}
+                  {authUser !== null && !authUser.access.createEvents && (
+                    <Redirect to="/" />
+                  )}
                 </Route>
                 <Route path="*">
                   <PageNotFound setTitle={setTitle} />

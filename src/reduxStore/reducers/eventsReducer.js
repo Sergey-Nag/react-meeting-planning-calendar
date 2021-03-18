@@ -1,35 +1,34 @@
 import {
-  SET_EVENTS,
+  GET_EVENTS,
   FILTER_EVENTS,
-  SET_EVENTS_LOADING,
-  SET_EVENTS_ERROR,
+  GET_EVENTS_ERROR,
+  UPDATE_EVENTS,
 } from '../types/eventsTypes';
 
 const initialState = {
   shouldReload: false,
   error: null,
-  isLoading: false,
   list: [],
   __list: [],
 };
 
 export default function eventsReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_EVENTS:
+    case GET_EVENTS:
       return {
         ...state,
         list: action.payload,
         __list: action.payload,
       };
-    case SET_EVENTS_LOADING:
-      return {
-        ...state,
-        isLoading: action.payload,
-      };
-    case SET_EVENTS_ERROR:
+    case GET_EVENTS_ERROR:
       return {
         ...state,
         error: action.payload,
+      };
+    case UPDATE_EVENTS:
+      return {
+        ...state,
+        shouldReload: true,
       };
     case FILTER_EVENTS:
       return {

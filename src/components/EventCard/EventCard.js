@@ -1,27 +1,24 @@
 import React, { useContext } from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import AuthContext from '../../contexts/AuthContext';
-// import Storage from '../../services/Storage';
-
-// const storeInstance = Storage.getInstance();
+import { removeEvent } from '../../reduxStore/actions/eventsActions';
+import { SHOW_CONFIRM } from '../../reduxStore/types/alertsTypes';
 
 export default function EventCard({ id, title }) {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const [{ access }] = useContext(AuthContext);
 
-  const showDeleteConfirm = () => {};
-  //   setAlert({
-  //     show: true,
-  //     type: 'confirm',
-  //     text: `Are you sure you want to delete "${title}" event?`,
-  //     onConfirm: async () => {
-  //       const isRemoved = await store.removeEvent(id);
-  //       if (isRemoved) {
-  //         dispatch(loadEvents());
-  //       }
-  //     },
-  //   });
-  // };
+  const showDeleteConfirm = () => {
+    dispatch({
+      type: SHOW_CONFIRM,
+      payload: {
+        text: `Are you sure you want to delete "${title}" event?`,
+        onConfirm: () => {
+          dispatch(removeEvent(id));
+        },
+      },
+    });
+  };
 
   return (
     <div

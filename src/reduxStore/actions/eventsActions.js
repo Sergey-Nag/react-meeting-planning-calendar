@@ -1,39 +1,47 @@
 import Storage from '../../services/Storage';
+import NotifyResponse from '../../services/SrotageDecorator';
 
 import {
-  SET_EVENTS,
-  SET_EVENTS_ERROR,
-  SET_EVENTS_LOADING,
+  UPDATE_EVENTS,
+  GET_EVENTS,
+  GET_EVENTS_ERROR,
 } from '../types/eventsTypes';
 
-const store = Storage.getInstance();
+const storageInstance = Storage.getInstance();
+const db = new NotifyResponse(storageInstance);
 
-const loadEvents = () => async (dispatch) => {
-  dispatch({
-    type: SET_EVENTS_LOADING,
-    payload: true,
-  });
-
+export const loadEvents = () => async (dispatch) => {
   try {
-    const req = await store.getAllEvents();
+    const req = await db.getAllEvents();
 
     if (!req) throw new Error();
 
     dispatch({
-      type: SET_EVENTS,
+      type: GET_EVENTS,
       payload: await req,
     });
   } catch (e) {
     dispatch({
-      type: SET_EVENTS_ERROR,
+      type: GET_EVENTS_ERROR,
       payload: e,
-    });
-  } finally {
-    dispatch({
-      type: SET_EVENTS_LOADING,
-      payload: false,
     });
   }
 };
 
-export default loadEvents;
+export const removeEvent = (id) => async (dispatch) => {
+  try {
+    const req = await db.removeEvent(id);
+
+    if (!req) throw new Error();
+
+    dispatch({
+      type: UPDATE_EVENTS,
+    });
+  } catch (e) {
+    // dispatch({
+    //   type: SET_EVENTS_ERROR,
+    //   payload: e,
+    // });
+    console.log(e);
+  }
+};

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
-import loadEvents from '../../reduxStore/actions/eventsActions';
+import { loadEvents } from '../../reduxStore/actions/eventsActions';
 import { FILTER_EVENTS } from '../../reduxStore/types/eventsTypes';
 
 export default function Dropdown(users) {

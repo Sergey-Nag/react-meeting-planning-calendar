@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import TableRow from './TableRow';
 import { DAY, setEventsIntoDays } from '../../helpers/helpers';
-import loadEvents from '../../reduxStore/actions/eventsActions';
+import { loadEvents } from '../../reduxStore/actions/eventsActions';
 
 export default function Calendar({ setTitle }) {
   const events = useSelector((state) => state.events);
@@ -31,7 +31,7 @@ export default function Calendar({ setTitle }) {
         </tr>
       </thead>
       <tbody className="calendar__body">
-        {!events.isLoading && setEventsIntoDays(events.list).map(({ time, days }) => (
+        {setEventsIntoDays(events.list).map(({ time, days }) => (
           <TableRow key={time} time={time} events={days} />
         ))}
       </tbody>
