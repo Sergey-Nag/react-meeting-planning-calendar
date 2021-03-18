@@ -1,5 +1,10 @@
 import Storage from './Storage';
-import { showPopup } from '../helpers/helpers';
+import store from '../reduxStore/store';
+import { showPopup as popup } from '../reduxStore/actions/alertActions';
+
+const showPopup = (...args) => {
+  store.dispatch(popup(...args));
+};
 
 class NotifierQueryStorage extends Storage {
   constructor(storage) {
@@ -66,10 +71,7 @@ export default class NotifyResponse extends NotifierQueryStorage {
     try {
       const setQuery = await this.storage.setEvent(data);
       if (setQuery) {
-        showPopup(
-          'success',
-          `Event "${data.title}" was successfully created`,
-        );
+        showPopup('success', `Event "${data.title}" was successfully created`);
       } else throw new Error();
     } catch (e) {
       showPopup('danger', 'Create Event error, please, try again');

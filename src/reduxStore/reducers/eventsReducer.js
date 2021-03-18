@@ -28,7 +28,7 @@ export default function eventsReducer(state = initialState, action) {
     case UPDATE_EVENTS:
       return {
         ...state,
-        shouldReload: true,
+        shouldReload: !state.shouldReload,
       };
     case FILTER_EVENTS:
       return {

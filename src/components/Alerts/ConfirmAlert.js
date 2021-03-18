@@ -8,7 +8,7 @@ const closeAlert = {
 };
 
 export default function ConfirmAlert() {
-  const { data } = useSelector((state) => state.alerts);
+  const { data } = useSelector((state) => state.alerts.confirm);
   const displatch = useDispatch();
   const wrapper = useRef();
 

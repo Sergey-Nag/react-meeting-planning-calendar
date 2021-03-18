@@ -19,7 +19,8 @@ import loadUsers from './reduxStore/actions/usersActions';
 
 export default function App() {
   const users = useSelector((state) => state.users);
-  const alert = useSelector((state) => state.alerts);
+  const confirm = useSelector((state) => state.alerts.confirm);
+  const popups = useSelector((state) => state.alerts.popups);
   const [title, setTitle] = useState('');
   const dispatch = useDispatch();
   const [authUser, setAuthUser] = useState(null);
@@ -30,8 +31,8 @@ export default function App() {
 
   return (
     <AuthContext.Provider value={[authUser, setAuthUser]}>
-      {alert.isShow && alert.type === 'popup' && <PopUp />}
-      {alert.isShow && alert.type === 'confirm' && <ConfirmAlert />}
+      {popups.isShow && <PopUp />}
+      {confirm.isShow && <ConfirmAlert />}
       {authUser === null && <AuthorizeAlert />}
       <Router basename={process.env.PUBLIC_URL}>
         <Container className="pt-5">
