@@ -4,44 +4,28 @@ import NotifyResponse from '../../services/SrotageDecorator';
 import {
   UPDATE_EVENTS,
   GET_EVENTS,
-  GET_EVENTS_ERROR,
 } from '../types/eventsTypes';
 
 const storageInstance = Storage.getInstance();
 const db = new NotifyResponse(storageInstance);
 
 export const loadEvents = () => async (dispatch) => {
-  try {
-    const req = await db.getAllEvents();
+  const req = await db.getAllEvents();
 
-    if (!req) throw new Error();
+  if (!req) return;
 
-    dispatch({
-      type: GET_EVENTS,
-      payload: await req,
-    });
-  } catch (e) {
-    dispatch({
-      type: GET_EVENTS_ERROR,
-      payload: e,
-    });
-  }
+  dispatch({
+    type: GET_EVENTS,
+    payload: await req,
+  });
 };
 
 export const removeEvent = (id) => async (dispatch) => {
-  try {
-    const req = await db.removeEvent(id);
+  const req = await db.removeEvent(id);
 
-    if (!req) throw new Error();
+  if (!req) return;
 
-    dispatch({
-      type: UPDATE_EVENTS,
-    });
-  } catch (e) {
-    // dispatch({
-    //   type: SET_EVENTS_ERROR,
-    //   payload: e,
-    // });
-    console.log(e);
-  }
+  dispatch({
+    type: UPDATE_EVENTS,
+  });
 };
