@@ -15,22 +15,6 @@ class NotifierQueryStorage extends Storage {
 }
 
 export default class NotifyResponse extends NotifierQueryStorage {
-  async getAllEvents() {
-    let events = null;
-
-    try {
-      events = await this.storage.getAllEvents();
-
-      if (events) {
-        showPopup('success', 'Events successfully loaded');
-      } else throw new Error();
-    } catch (e) {
-      showPopup('danger', 'Loading Events error, please, try again');
-    }
-
-    return events;
-  }
-
   async getAllUsers() {
     let users = null;
 
@@ -47,13 +31,11 @@ export default class NotifyResponse extends NotifierQueryStorage {
     return users;
   }
 
-  async getPreFilteredEvents() {
+  async getAllEvents() {
     let events = null;
 
     try {
-      events = await this.storage.getPreFilteredEvents();
-
-      if (typeof this.storage.preFilter === 'function') return events;
+      events = await this.storage.getAllEvents();
 
       if (events.length === 0) {
         showPopup('warning', 'Not enough events to display');
@@ -65,6 +47,17 @@ export default class NotifyResponse extends NotifierQueryStorage {
     }
 
     return events;
+  }
+
+  async getEventByDayTime(day, time) {
+    try {
+      const datesQuery = await this.storage.getEventByDayTime(day, time);
+      return datesQuery;
+    } catch (e) {
+      console.log(e);
+      showPopup('danger', 'Check Event error, please, try again');
+    }
+    return 'error';
   }
 
   async setEvent(data) {

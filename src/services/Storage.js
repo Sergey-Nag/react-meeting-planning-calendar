@@ -70,10 +70,10 @@ class Storage {
     return this.events.filter(({ data }) => this.preFilter(data));
   }
 
-  getEventByDayTime(day, time) {
-    return this.events.some(
-      ({ data }) => data.day === day && data.time === time,
-    );
+  async getEventByDayTime(day, time) {
+    if (!this.events) this.events = await this.getAllEvents();
+
+    return this.events.some(({ data }) => data.day === day && data.time === time);
   }
 
   async updateEvent(eventId, day, time) {

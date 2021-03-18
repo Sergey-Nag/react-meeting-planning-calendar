@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import CreateEventForm from './CreateEventForm';
 import ParticipantsSelects from './ParticipantsSelects';
 import FormContext from '../../contexts/FormContext';
 import Storage from '../../services/Storage';
+import { createNewEvent } from '../../reduxStore/actions/eventsActions';
+import NotifyResponse from '../../services/SrotageDecorator';
+import { showPopup } from '../../reduxStore/actions/alertActions';
 
 const storeInstance = Storage.getInstance();
 
@@ -17,9 +20,11 @@ const prepareData = (data) =>
 
 export default function CreateEvent({ setTitle }) {
   const users = useSelector((state) => state.users);
-  // const events = useSelector((state) => state.events);
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
+  const db = new NotifyResponse(storeInstance);
+
   const [form, setForm] = useState({
     validation: false,
     inputs: {
@@ -49,41 +54,56 @@ export default function CreateEvent({ setTitle }) {
     setTitle('Create Event');
   }, []);
 
-  const createEvent = async (data) => {
-    // const createReq = await store.setEvent(data);
-    // console.log(createReq);
+  const createEvent = (data) => {
+    console.log(data);
+    dispatch(createNewEvent(data));
   };
 
-  const handleCreateEvent = () => {
+  const handleCreateEvent = async () => {
     const values = Object.values(form.inputs);
-    const isAnyInvalid = values.some(({ isValid }) => isValid === false);
+    const isAnyInvalid = values.some(({ isValid }) => !isValid);
 
     setForm({ ...form, validation: isAnyInvalid });
 
     if (isAnyInvalid) return;
 
     const { day, time } = form.inputs;
-    const isDateTimeBooked = storeInstance.getEventByDayTime(
-      day.value,
-      time.value,
-    );
+    const isDateTimeBooked = await db.getEventByDayTime(day.value, time.value);
 
-    if (isDateTimeBooked) {
-      // createPopUp(alert, setAlert)('danger',
-      // 'Failed to create an event. Time slot at Wed 10:00 is already booked');
+    if (isDateTimeBooked === true) {
+      dispatch(
+        showPopup(
+          'danger',
+          `Failed to create an event. Time slot at ${day.value} ${time.value} is already booked`,
+        ),
+      );
+      setForm({
+        ...form,
+        validation: true,
+        afterDateTimeCheck: true,
+        inputs: {
+          ...form.inputs,
+          day: {
+            value: form.inputs.day.value,
+            isValid: false,
+          },
+          time: {
+            value: form.inputs.time.value,
+            isValid: false,
+          },
+        },
+      });
       return;
     }
 
-    createEvent(prepareData(form.inputs));
+    const isCreated = await db.setEvent(prepareData(form.inputs));
+
+    if (!isCreated) return;
 
     setButtonDisabled(true);
     setTimeout(() => {
       history.push('/');
-      // setEvents({
-      //   ...events,
-      //   count: events.count + 1,
-      // });
-    }, 3000);
+    }, 2000);
   };
 
   const handleCancel = () => {

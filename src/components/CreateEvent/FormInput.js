@@ -30,10 +30,11 @@ export default function FormInput({
             isInvalid={validation && !isValid}
           />
 
-          {validation && (
+          {validation && !!tip && (
             <Form.Control.Feedback type="invalid">
-              {!isValid &&
-                tip.split('\n').map((msg) => <div key={msg}>{msg}</div>)}
+              {tip.split('\n').map((msg) => (
+                <div key={msg}>{msg}</div>
+              ))}
             </Form.Control.Feedback>
           )}
         </Col>
