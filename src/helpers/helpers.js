@@ -70,4 +70,11 @@ function createPopUp(alert, setAlert) {
   };
 }
 
-export { DAY, TIME, DATES, setEventsIntoDays, createPopUp, AVATARS };
+export {
+  DAY,
+  TIME,
+  DATES,
+  setEventsIntoDays,
+  createPopUp,
+  AVATARS,
+};

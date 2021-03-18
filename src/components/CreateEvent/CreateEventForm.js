@@ -23,16 +23,31 @@ function validateTextValue(value) {
     res.tip += "Title mustn't consist symbols like '*, `, %, $, ;, :, \\, /'";
   }
 
-  return res;
+  return { title: { value, isValid: res } };
 }
+
+const setDateTimeAfterCheck = (form, name, value) => ({
+  day: {
+    value: name === 'day' ? value : form.inputs.day.value,
+    isValid: value !== '0',
+  },
+  time: {
+    value: name === 'time' ? value : form.inputs.time.value,
+    isValid: value !== '0',
+  },
+});
 
 export default function CreateEventForm() {
   const [form, setForm] = useContext(FormContext);
 
   const validateValues = (name, value) => {
     if (name === 'title') return validateTextValue(value);
-    else if (name === 'participants') return { isValid: value.lenght > 0 };
-    else return { isValid: value !== '0' };
+    else if (name === 'participants') {
+      return { [name]: { isValid: value.lenght > 0 } };
+    } else if (form.afterDateTimeCheck) {
+      setForm({ ...form, afterDateTimeCheck: false });
+      return setDateTimeAfterCheck(form, name, value);
+    } else return { [name]: { value, isValid: value !== 0 } };
   };
 
   const handleChange = ({ target }) => {
@@ -42,10 +57,7 @@ export default function CreateEventForm() {
       ...form,
       inputs: {
         ...form.inputs,
-        [name]: {
-          value,
-          ...validateValues(name, value),
-        },
+        ...validateValues(name, value),
       },
     });
   };

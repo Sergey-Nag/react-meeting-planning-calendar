@@ -1,50 +1,52 @@
-import React, { useContext } from 'react';
-import AlertContext from '../../contexts/AlertContext';
-import UsersContext from '../../contexts/UsersContext';
-import Storage from '../../services/Storage';
-import NotifyResponse from '../../services/SrotageDecorator';
-import { createPopUp } from '../../helpers/helpers';
-import EventsContext from '../../contexts/EventsContext';
+import React, { useContext, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import AuthContext from '../../contexts/AuthContext';
+import { AVATARS } from '../../helpers/helpers';
+import { removeEvent } from '../../reduxStore/actions/eventsActions';
+import { SHOW_CONFIRM } from '../../reduxStore/types/alertsTypes';
 
-const storeInstance = Storage.getInstance();
-
-export default function EventCard({ id, title }) {
-  const [events, setEvents] = useContext(EventsContext);
-
-  const [
-    {
-      authUser: { access },
-    },
-  ] = useContext(UsersContext);
-  const [alert, setAlert] = useContext(AlertContext);
-  const store = new NotifyResponse(storeInstance, createPopUp(alert, setAlert));
+export default function EventCard({ id, event }) {
+  const { title, participants } = event;
+  const dispatch = useDispatch();
+  const [{ access }] = useContext(AuthContext);
+  const users = useSelector((state) => state.users);
+  const [participantsList, setParticipantsList] = useState([]);
 
   const showDeleteConfirm = () => {
-    setAlert({
-      show: true,
-      type: 'confirm',
-      text: `Are you sure you want to delete "${title}" event?`,
-      onConfirm: async () => {
-        const isRemoved = await store.removeEvent(id);
-        if (isRemoved) {
-          setEvents({
-            ...events,
-            count: events.count + 1,
-          });
-        }
+    dispatch({
+      type: SHOW_CONFIRM,
+      payload: {
+        text: `Are you sure you want to delete "${title}" event?`,
+        onConfirm: () => {
+          dispatch(removeEvent(id));
+        },
       },
     });
   };
 
+  useEffect(() => {
+    setParticipantsList(
+      participants.map((pName) =>
+        users.list.find(({ name }) => name === pName)),
+    );
+  }, [participantsList.length]);
+
   return (
-    <div
-      className="card calendar__card d-flex justify-content-between"
-      data-id={id}
-    >
+    <div className="card calendar__card d-flex justify-content-between">
       <div className="card__title">
         <span>{title}</span>
       </div>
-      <div className="card__avatars" />
+      <div className="card__avatars">
+        {participantsList.map(({ name, avatar }) => (
+          <img
+            key={name}
+            src={AVATARS[avatar]}
+            title={name}
+            alt={name}
+            className="card__avatar"
+          />
+        ))}
+      </div>
       {access.deleteEvents && (
         <button
           type="button"

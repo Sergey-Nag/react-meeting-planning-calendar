@@ -1,21 +1,24 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
-import UsersContext from '../../contexts/UsersContext';
+import { useSelector } from 'react-redux';
+import AuthContext from '../../contexts/AuthContext';
 import Admin from '../../users/Admin';
 
 export default function AuthorizeAlert() {
-  const [users, setUsers] = useContext(UsersContext);
+  const [, setAuthUser] = useContext(AuthContext);
+  const users = useSelector((state) => state.users);
+  const [isBtnActive, setBtnActive] = useState(true);
   const selectUsers = useRef(null);
 
   const authorizeUser = () => {
     const chosenUser = selectUsers.current.value;
-    setUsers({
-      ...users,
-      ...{
-        authUser: users.list.find(({ name }) => name === chosenUser),
-      },
-    });
+    setAuthUser(users.list.find(({ name }) => name === chosenUser));
   };
+
+  useEffect(() => {
+    if (selectUsers.current.value === '') setBtnActive(false);
+    else setBtnActive(true);
+  }, [users.list.length]);
 
   return (
     <div className="alert__wrapp">
@@ -37,6 +40,7 @@ export default function AuthorizeAlert() {
               type="button"
               className="w-100"
               onClick={authorizeUser}
+              disabled={!isBtnActive}
             >
               Confirm
             </Button>

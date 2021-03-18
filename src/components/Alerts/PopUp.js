@@ -1,26 +1,31 @@
-import React, { useContext, useEffect } from 'react';
-import AlertContext from '../../contexts/AlertContext';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { REMOVE_FIRST_POPUP, REMOVE_POPUPS } from '../../reduxStore/types/alertsTypes';
 
 export default function PopUp() {
-  const [alert, setAlert] = useContext(AlertContext);
+  const { data } = useSelector((state) => state.alerts.popups);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const popupsInterval = setInterval(() => {
-      setAlert({
-        ...alert,
-        list: alert.list.slice(1, alert.length),
+      dispatch({
+        type: REMOVE_FIRST_POPUP,
       });
 
-      if (alert.list.length === 0) setAlert({ show: false });
+      if (data.length === 0) {
+        dispatch({
+          type: REMOVE_POPUPS,
+        });
+      }
     }, 3000);
 
     return () => clearInterval(popupsInterval);
-  }, [alert.list.length]);
+  }, [data.length]);
 
   return (
     <div className="popup__wrapp">
-      {alert.list.map(({ id, num, theme, text }) => (
-        <div key={id} className={`popup row alert alert-${theme} mb-3`}>
+      {data.map(({ num, theme, text }) => (
+        <div key={`popup-${num}`} className={`popup row alert alert-${theme} mb-3`}>
           <span className="popup__title">
             <b className="popup__num">{num}</b>
             {text}

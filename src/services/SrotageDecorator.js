@@ -1,10 +1,15 @@
 import Storage from './Storage';
+import store from '../reduxStore/store';
+import { showPopup as popup } from '../reduxStore/actions/alertActions';
+
+const showPopup = (...args) => {
+  store.dispatch(popup(...args));
+};
 
 class NotifierQueryStorage extends Storage {
-  constructor(storage, showPopup) {
+  constructor(storage) {
     super();
 
-    this.showPopup = showPopup;
     this.storage = storage;
   }
 }
@@ -17,46 +22,52 @@ export default class NotifyResponse extends NotifierQueryStorage {
       users = await this.storage.getAllUsers();
 
       if (users) {
-        this.showPopup('success', 'Users successfully loaded');
+        showPopup('success', 'Users successfully loaded');
       } else throw new Error();
     } catch (e) {
-      this.showPopup('danger', 'Loading Users error, please, try again');
+      showPopup('danger', 'Loading Users error, please, try again');
     }
 
     return users;
   }
 
-  async getPreFilteredEvents() {
+  async getAllEvents() {
     let events = null;
 
     try {
-      events = await this.storage.getPreFilteredEvents();
-
-      if (typeof this.storage.preFilter === 'function') return events;
+      events = await this.storage.getAllEvents();
 
       if (events.length === 0) {
-        this.showPopup('warning', 'Not enough events to display');
+        showPopup('warning', 'Not enough events to display');
       } else if (events) {
-        this.showPopup('success', 'Events successfully loaded');
+        showPopup('success', 'Events successfully loaded');
       } else throw new Error();
     } catch (e) {
-      this.showPopup('danger', 'Loading Events error, please, try again');
+      showPopup('danger', 'Loading Events error, please, try again');
     }
 
     return events;
+  }
+
+  async getEventByDayTime(day, time) {
+    try {
+      const datesQuery = await this.storage.getEventByDayTime(day, time);
+      return datesQuery;
+    } catch (e) {
+      console.error(e);
+      showPopup('danger', 'Check Event error, please, try again');
+    }
+    return 'error';
   }
 
   async setEvent(data) {
     try {
       const setQuery = await this.storage.setEvent(data);
       if (setQuery) {
-        this.showPopup(
-          'success',
-          `Event "${data.title}" was successfully created`,
-        );
+        showPopup('success', `Event "${data.title}" was successfully created`);
       } else throw new Error();
     } catch (e) {
-      this.showPopup('danger', 'Create Event error, please, try again');
+      showPopup('danger', 'Create Event error, please, try again');
       return false;
     }
 
@@ -68,10 +79,10 @@ export default class NotifyResponse extends NotifierQueryStorage {
       const updQuery = await this.storage.updateEvent(...args);
 
       if (updQuery) {
-        this.showPopup('success', 'Event was successfully updated');
+        showPopup('success', 'Event was successfully updated');
       } else throw new Error();
     } catch (e) {
-      this.showPopup('danger', "Event wasn't updated, please, try again");
+      showPopup('danger', "Event wasn't updated, please, try again");
       return false;
     }
 
@@ -83,10 +94,10 @@ export default class NotifyResponse extends NotifierQueryStorage {
       const deleteQuery = await this.storage.removeEvent(id);
 
       if (deleteQuery) {
-        this.showPopup('success', 'Event successfully deleted');
+        showPopup('success', 'Event successfully deleted');
       } else throw new Error();
     } catch (e) {
-      this.showPopup('danger', 'Deleting Events error, please try again');
+      showPopup('danger', 'Deleting Events error, please try again');
       return false;
     }
 

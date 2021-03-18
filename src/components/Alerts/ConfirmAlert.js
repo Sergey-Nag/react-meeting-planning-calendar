@@ -1,19 +1,25 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
-import AlertContext from '../../contexts/AlertContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { HIDE_CONFIRM } from '../../reduxStore/types/alertsTypes';
+
+const closeAlert = {
+  type: HIDE_CONFIRM,
+};
 
 export default function ConfirmAlert() {
-  const [alert, setAlert] = useContext(AlertContext);
+  const { data } = useSelector((state) => state.alerts.confirm);
+  const displatch = useDispatch();
   const wrapper = useRef();
 
   const denyHandler = () => {
-    setAlert({ show: false });
-    if (alert.onDeny) alert.onDeny();
+    displatch(closeAlert);
+    if (data.onDeny) data.onDeny();
   };
 
   const confirmHandler = () => {
-    setAlert({ show: false });
-    if (alert.onConfirm) alert.onConfirm();
+    displatch(closeAlert);
+    if (data.onConfirm) data.onConfirm();
   };
 
   useEffect(() => {
@@ -30,7 +36,7 @@ export default function ConfirmAlert() {
   return (
     <div className="alert__wrapp" ref={wrapper}>
       <div className="alert bg-light">
-        {alert.text}
+        {data.text}
         <br />
         <hr />
         <Row>

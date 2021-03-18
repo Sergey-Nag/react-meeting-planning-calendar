@@ -1,38 +1,39 @@
 import React, { useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
-import Storage from '../../services/Storage';
-import EventsContext from '../../contexts/EventsContext';
+import { loadEvents, filterByParticipants } from '../../reduxStore/actions/eventsActions';
+import AuthContext from '../../contexts/AuthContext';
 
-const store = Storage.getInstance();
-
-export default function Dropdown(users) {
-  const [events, setEvents] = useContext(EventsContext);
+export default function Dropdown({ users }) {
+  const [authUser] = useContext(AuthContext);
+  const dispatch = useDispatch();
 
   const filterEventByUser = (value) => {
-    store.preFilter =
-      value === 'all'
-        ? null
-        : ({ participants }) => participants.includes(value);
-
-    setEvents({
-      ...events,
-      count: events.count + 1,
-    });
+    if (value === 'all') {
+      dispatch(loadEvents());
+    } else {
+      dispatch(filterByParticipants(value));
+    }
   };
 
   return (
     <Form.Control
       as="select"
+      disabled={!authUser.access.filterEvents}
       custom
       defaultValue="all"
       onChange={(e) => filterEventByUser(e.target.value)}
     >
-      <option value="all">All members</option>
-      {users.users.map(({ name }) => (
-        <option key={`user-${name}`} value={name}>
-          {name}
-        </option>
-      ))}
+      {authUser.access.filterEvents && (
+        <>
+          <option value="all">All members</option>
+          {users.map(({ name }) => (
+            <option key={name}>{name}</option>
+          ))}
+        </>
+      )}
+
+      {!authUser.access.filterEvents && <option>{authUser.name}</option>}
     </Form.Control>
   );
 }

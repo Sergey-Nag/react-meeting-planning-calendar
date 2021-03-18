@@ -8,6 +8,7 @@ export default class Admin extends User {
       createEvents: true,
       deleteEvents: true,
       editEvents: true,
+      filterEvents: true,
     };
   }
 }

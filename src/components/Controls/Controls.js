@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
 import { Switch, Link, Route } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import Dropdown from '../Dropdown/Dropdown';
-import UsersContext from '../../contexts/UsersContext';
+import AuthContext from '../../contexts/AuthContext';
 
 export default function Controls() {
-  const [users] = useContext(UsersContext);
-  const { access } = users.authUser;
+  const [{ access }] = useContext(AuthContext);
+  const users = useSelector((state) => state.users);
 
   return (
     <Row>

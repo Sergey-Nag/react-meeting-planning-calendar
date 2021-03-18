@@ -8,6 +8,7 @@ export default class User {
       createEvents: false,
       deleteEvents: false,
       editEvents: false,
+      filterEvents: false,
     };
   }
 }
