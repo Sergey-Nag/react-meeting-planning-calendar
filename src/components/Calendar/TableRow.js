@@ -12,9 +12,9 @@ export default function TableRow({ time, events }) {
         <td key={day}>
           {authUser && event && (
             <EventCard
-              key={day}
+              key={`${event.id}event`}
               id={event.id}
-              title={event.title}
+              event={event}
             />
           )}
         </td>

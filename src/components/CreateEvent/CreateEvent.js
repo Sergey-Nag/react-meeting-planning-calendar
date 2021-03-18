@@ -6,7 +6,6 @@ import CreateEventForm from './CreateEventForm';
 import ParticipantsSelects from './ParticipantsSelects';
 import FormContext from '../../contexts/FormContext';
 import Storage from '../../services/Storage';
-import { createNewEvent } from '../../reduxStore/actions/eventsActions';
 import NotifyResponse from '../../services/SrotageDecorator';
 import { showPopup } from '../../reduxStore/actions/alertActions';
 
@@ -53,11 +52,6 @@ export default function CreateEvent({ setTitle }) {
     document.title = 'Create Event';
     setTitle('Create Event');
   }, []);
-
-  const createEvent = (data) => {
-    console.log(data);
-    dispatch(createNewEvent(data));
-  };
 
   const handleCreateEvent = async () => {
     const values = Object.values(form.inputs);

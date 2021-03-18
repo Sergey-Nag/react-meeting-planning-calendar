@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form } from 'react-bootstrap';
 import { loadEvents, filterByParticipants } from '../../reduxStore/actions/eventsActions';
 import AuthContext from '../../contexts/AuthContext';
-import { showPopup } from '../../reduxStore/actions/alertActions';
 
 export default function Dropdown({ users }) {
   const [authUser] = useContext(AuthContext);
